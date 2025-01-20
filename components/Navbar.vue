@@ -11,7 +11,8 @@ const items = ref([
   },
   {
     label: 'Course & Professor Search',
-    icon: 'pi pi-search'
+    icon: 'pi pi-search',
+    command: () => navigateTo('/search')
   }
 ]);
 </script>
@@ -25,7 +26,7 @@ const items = ref([
       <template #end>
         <div class="navbar-buttons">
           <Button label="Log In" @click="navigateTo('/login')" />
-          <Button label="Sign Up" />
+          <Button label="Sign Up" @click="navigateTo('/signup')" />
         </div>
       </template>
     </Menubar>
