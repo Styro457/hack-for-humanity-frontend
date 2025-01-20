@@ -17,7 +17,7 @@ const items = ref([
 </script>
 
 <template>
-  <div class="card">
+  <header class="card">
     <Menubar :model="items" class="navbar">
       <template #start>
         <NuxtLink to="/"><h2>Logo</h2></NuxtLink>
@@ -29,7 +29,7 @@ const items = ref([
         </div>
       </template>
     </Menubar>
-  </div>
+  </header>
 </template>
 
 <style scoped>
