@@ -1,0 +1,28 @@
+.text-link {
+    text-decoration: underline;
+    color: var(--p-card-color);
+    cursor: pointer;
+}
+
+.text-link:hover {
+    background: none;
+}
+
+h1 {
+    font-size: 4rem;
+    margin: 1rem 0;
+    line-height: 1.4;
+    color: var(--p-surface-900);
+}
+
+.bold-700 {
+    font-weight: 700;
+}
+
+.bold-800 {
+    font-weight: 800;
+}
+
+.bold-900 {
+    font-weight: 900;
+}

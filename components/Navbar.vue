@@ -51,6 +51,7 @@ const items = ref([
 
 .p-button {
   margin: 0 0.2rem;
+  font-size: 14px;
 }
 
 </style>
