@@ -57,7 +57,7 @@ const onFormSubmit = ({ valid }) => {
           </FloatLabel>
           <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{ $form.password.error?.message }}</Message>
         </div>
-        <Button type="submit" severity="secondary" label="Sign Up" class="auth submit"/>
+        <Button type="submit" label="Sign Up" class="auth submit"/>
       </Form>
     </template>
     <template #footer>

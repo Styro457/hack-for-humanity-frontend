@@ -25,8 +25,8 @@ const items = ref([
       </template>
       <template #end>
         <div class="navbar-buttons">
-          <Button label="Log In" @click="navigateTo('/login')" />
-          <Button label="Sign Up" @click="navigateTo('/signup')" />
+          <Button label="Log In" severity="secondary" @click="navigateTo('/login')" />
+          <Button label="Sign Up" severity="secondary" @click="navigateTo('/signup')" />
         </div>
       </template>
     </Menubar>
