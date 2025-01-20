@@ -1,3 +1,28 @@
-.auth-panel {
-    width: 50vw;
+:root {
+    --p-card-background: RED;
+}
+
+.auth.panel {
+    padding: 2rem;
+    width: 30rem;
+}
+
+.auth.input {
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+.auth.submit {
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.card-footer {
+    font-size: small;
+}
+
+.p-card-header {
+    font-size: 2rem;
+    align-content: center;
+    font-weight: bolder;
 }

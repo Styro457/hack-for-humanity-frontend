@@ -1,4 +1,5 @@
 @import './base.css';
+@import './auth.css';
 
 body {
     display: flex;
@@ -11,7 +12,11 @@ body {
     font-weight: normal;
     width: 100%;
     display: grid;
+    justify-self: center;
+    justify-content: center;
+    justify-items: center;
     padding: 0 3rem;
+    text-align: center;
 }
 
 a,
@@ -20,6 +25,16 @@ a,
     color: hsla(160, 100%, 37%, 1);
     transition: 0.4s;
     padding: 3px;
+}
+
+.text-link {
+    text-decoration: underline;
+    color: var(--p-card-color);
+    cursor: pointer;
+}
+
+.text-link:hover {
+    background: none;
 }
 
 @media (hover: hover) {
