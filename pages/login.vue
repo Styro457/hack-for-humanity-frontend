@@ -32,14 +32,14 @@ const onFormSubmit = ({ valid }) => {
     <template #content>
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
         <div>
-          <FloatLabel variant="on">
+          <FloatLabel variant="on" class="auth element">
             <InputText name="email" type="text" class="auth input" />
             <label for="on_label">Email</label>
           </FloatLabel>
           <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error?.message }}</Message>
         </div>
         <div>
-          <FloatLabel variant="on">
+          <FloatLabel variant="on" class="auth element">
             <InputText name="password" type="password" class="auth input"/>
             <label for="on_label">Password</label>
           </FloatLabel>
