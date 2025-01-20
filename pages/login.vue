@@ -31,7 +31,7 @@ const onFormSubmit = ({ valid }) => {
     <template #header>Log in to Site</template>
     <template #content>
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
-        <div class="auth input">
+        <div>
           <FloatLabel variant="on">
             <InputText name="email" type="text" class="auth input" />
             <label for="on_label">Email</label>
