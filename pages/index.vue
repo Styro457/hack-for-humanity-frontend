@@ -10,10 +10,9 @@ const search = (event) => {
 
 <template>
   <div class="title">
-    <h1 class="bold-800">Discover Amazing<br>University Courses</h1>
+    <h1 class="bold-800">Unbiased Reviews of<br>University Courses,<br>All in One Place</h1>
     <h2>
-      Lorem ipsum dolor sit amet, consectetur elit. Sed eget est quis arcu.<br>
-      Donec elementum congue nulla, ac sollicitudin erat tristique eu.
+      Easily explore and compare university courses. Read honest student<br> reviews and make informed decisions to find the right course for you.
     </h2>
   </div>
   <div class="card flex flex-wrap justify-center gap-4">
