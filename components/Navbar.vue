@@ -2,6 +2,13 @@
 
 const session = useCookie("session")
 
+const log_out = () => {
+  session.value = null
+  setTimeout(() => {
+    navigateTo("/")
+  }, 5000);
+}
+
 const items = ref([
   {
     label: 'Home',
@@ -18,7 +25,7 @@ const items = ref([
   }
 ]);
 
-const menu_items = false ? ref([
+const menu_items = session.value === null || session.value === undefined ? ref([
   {
     label: 'Log In',
     severity: 'secondary',
@@ -45,11 +52,14 @@ const menu_items = false ? ref([
         label: 'Settings'
       },
       {
-        label: "Log Out"
+        label: "Log Out",
+        color: 'red',
+        command: log_out
       }
     ]
   }
 ])
+
 </script>
 
 <template>
@@ -63,7 +73,7 @@ const menu_items = false ? ref([
           <template #item="{ item, props, hasSubmenu, root }">
             <Button v-if="item.button" :label="item.label" :severity="item.severity" v-bind="props.action"></Button>
             <a v-else v-ripple class="flex items-center" v-bind="props.action">
-              <span>{{ item.label }}</span>
+              <span :style="{'color': item.color}">{{ item.label }}</span>
               <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
               <i v-if="hasSubmenu" :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"></i>
             </a>

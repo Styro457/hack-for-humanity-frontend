@@ -54,7 +54,9 @@ const handleLogin = async () => {
       const session = useCookie('session')
 
       session.value = "User"
-      await router.push('/');
+      setTimeout(() => {
+        router.push('/');
+      }, 5000);
     }
     console.log(err)
   }
