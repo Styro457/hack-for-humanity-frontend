@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+const session = useCookie("session")
+
 const items = ref([
   {
     label: 'Home',
@@ -15,6 +17,39 @@ const items = ref([
     command: () => navigateTo('/search')
   }
 ]);
+
+const menu_items = false ? ref([
+  {
+    label: 'Log In',
+    severity: 'secondary',
+    button: true,
+    command: () => navigateTo("/login")
+  },
+  {
+    label: "Sign Up",
+    button: true,
+    command: () => navigateTo("/signup")
+  }
+]) : ref([
+  {
+    label: 'Write a review',
+    button: true
+  },
+  {
+    label: session,
+    items: [
+      {
+        label: 'Courses'
+      },
+      {
+        label: 'Settings'
+      },
+      {
+        label: "Log Out"
+      }
+    ]
+  }
+])
 </script>
 
 <template>
@@ -24,11 +59,22 @@ const items = ref([
         <NuxtLink to="/"><h2>Logo</h2></NuxtLink>
       </template>
       <template #end>
-        <NavbarControls />
+        <Menubar :model="menu_items" class="sub-menu">
+          <template #item="{ item, props, hasSubmenu, root }">
+            <Button v-if="item.button" :label="item.label" :severity="item.severity" v-bind="props.action"></Button>
+            <a v-else v-ripple class="flex items-center" v-bind="props.action">
+              <span>{{ item.label }}</span>
+              <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+              <i v-if="hasSubmenu" :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"></i>
+            </a>
+          </template>
+        </Menubar>
+<!--        <div v-if="session">LOGGED IN</div>
+        <div v-else>Logged off</div>
         <div class="navbar-buttons">
           <Button label="Log In" severity="secondary" @click="navigateTo('/login')" />
           <Button label="Sign Up" severity="secondary" @click="navigateTo('/signup')" />
-        </div>
+        </div>-->
       </template>
     </Menubar>
   </header>
@@ -53,6 +99,13 @@ const items = ref([
 .p-button {
   margin: 0 0.2rem;
   font-size: 14px;
+}
+
+.sub-menu {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
 }
 
 </style>
