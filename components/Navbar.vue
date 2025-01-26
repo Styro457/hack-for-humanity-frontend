@@ -15,10 +15,6 @@ const items = ref([
     command: () => navigateTo('/')
   },
   {
-    label: 'About',
-    command: () => navigateTo('/about')
-  },
-  {
     label: 'Course & Professor Search',
     icon: 'pi pi-search',
     command: () => navigateTo('/search')

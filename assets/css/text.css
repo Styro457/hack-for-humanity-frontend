@@ -9,10 +9,14 @@
 }
 
 h1 {
-    font-size: 5rem;
+    font-size: 4rem;
     margin: 1rem 0;
-    line-height: 1.4;
+    line-height: 1.2;
     color: var(--p-surface-900);
+}
+
+h2 {
+    font-size: 1.1rem;
 }
 
 .bold-700 {
