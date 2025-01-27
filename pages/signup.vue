@@ -5,27 +5,63 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { useToast } from "primevue/usetoast";
 import { z } from 'zod';
 
-const toast = useToast();
+const API_URL = "http://127.0.0.1:8000";
+
+const username = ref('');
+const email = ref('');
+const password = ref('');
+
+const error = ref(null);
+
 const initialValues = ref({
+  username: '',
   email: '',
-  confirmEmail: '',
+  confirmPassword: '',
   password: ''
 });
 
 const resolver = ref(zodResolver(
     z.object({
+      username: z.string().min(1, { message: 'Username is required.' }),
       email: z.string().min(1, { message: 'Email is required.' }).email({ message: 'Invalid email address.' }),
-      confirmEmail: z.string().min(1, { message: 'Email confirmation is required.' }).email({ message: 'Invalid email address.' }),
+      confirmPassword: z.string().min(1, { message: 'Password confirmation is required.' }),
       password: z.string().min(1, { message: 'Password is required.' }),
-    }).refine(data => data.email === data.confirmEmail, {
-      message: "Emails do not match",
-      path: ["confirmEmail"],
+    }).refine(data => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
     })
 ));
 
 const onFormSubmit = ({ valid }) => {
   if (valid) {
-    toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
+    handleSignUp()
+  }
+};
+
+const handleSignUp = async () => {
+  try {
+    //error.value = null;
+    console.log({ 'username': username.value, 'email': email.value,'password': password.value});
+    const response = await $fetch(API_URL + '/users/signup', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: { 'username': username.value, 'email': email.value,'password': password.value}
+    });
+    if (response.success) {
+      // Redirect after successful login
+      router.push({
+        path: '/',
+        query: {
+          response: 'FUCK OFF',
+        },
+      });
+    } else {
+      error.value = response.message || 'An error occurred.';
+    }
+  } catch(err) {
+    error.value = 'An error occurred. Please try again.';
+    console.log(err)
   }
 };
 
@@ -35,27 +71,35 @@ const onFormSubmit = ({ valid }) => {
   <Card class="auth panel">
     <template #header>Create an Account</template>
     <template #content>
+      <Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
         <div class="auth element">
           <FloatLabel variant="on">
-            <InputText name="email" type="text" class="auth input" />
+            <InputText name="username" type="text" class="auth input" v-model="username" />
+            <label for="on_label">Username</label>
+          </FloatLabel>
+          <Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error?.message }}</Message>
+        </div>
+        <div class="auth element">
+          <FloatLabel variant="on">
+            <InputText name="email" type="text" class="auth input" v-model="email" />
             <label for="on_label">Email</label>
           </FloatLabel>
           <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error?.message }}</Message>
         </div>
         <div class="auth element">
           <FloatLabel variant="on">
-            <InputText name="confirmEmail" type="text" class="auth input" />
-            <label for="on_label">Email Confirmation</label>
-          </FloatLabel>
-          <Message v-if="$form.confirmEmail?.invalid" severity="error" size="small" variant="simple">{{ $form.confirmEmail.error?.message }}</Message>
-        </div>
-        <div class="auth element">
-          <FloatLabel variant="on">
-            <InputText name="password" type="password" class="auth input"/>
+            <InputText name="password" type="password" class="auth input" v-model="password" />
             <label for="on_label">Password</label>
           </FloatLabel>
           <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{ $form.password.error?.message }}</Message>
+        </div>
+        <div class="auth element">
+          <FloatLabel variant="on">
+            <InputText name="confirmPassword" type="password" class="auth input" />
+            <label for="on_label">Confirm password</label>
+          </FloatLabel>
+          <Message v-if="$form.confirmPassword?.invalid" severity="error" size="small" variant="simple">{{ $form.confirmPassword.error?.message }}</Message>
         </div>
         <Button type="submit" label="Sign Up" class="auth submit"/>
       </Form>

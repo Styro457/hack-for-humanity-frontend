@@ -6,9 +6,8 @@ import { useToast } from "primevue/usetoast";
 import { z } from 'zod';
 
 const router = useRouter();
-
+const API_URL = "http://127.0.0.1:8000";
 // TODO: Make a constants file
-const API_URL = "https://api.example.com/user/something";
 
 const email = ref(null);
 const password = ref(null);
@@ -21,7 +20,7 @@ const initialValues = ref({
 
 const resolver = ref(zodResolver(
     z.object({
-      email: z.string().min(1, { message: 'Email is required.' }).email({ message: 'Invalid email address.' }),
+      email: z.string().min(1, { message: 'Email is required.' }),//.email({ message: 'Invalid email address.' }),
       password: z.string().min(1, { message: 'Password is required.' }),
     })
 ));
@@ -50,14 +49,6 @@ const handleLogin = async () => {
     }
   } catch(err) {
     error.value = 'An error occurred. Please try again.';
-    if(email.value.includes("real")) {
-      const session = useCookie('session')
-
-      session.value = "User"
-      setTimeout(() => {
-        router.push('/');
-      }, 5000);
-    }
     console.log(err)
   }
 };
