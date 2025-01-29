@@ -25,3 +25,17 @@
     gap: 0.5rem;
     text-align: left;
 }
+
+.texticon {
+    margin: 0 8px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.small-icon {
+    width: 18px;
+    height: 18px;
+}

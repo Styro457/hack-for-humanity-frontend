@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['primeicons/primeicons.css', 'assets/css/main.css'],
   modules: [
-    '@primevue/nuxt-module'
+    '@primevue/nuxt-module',
+    "nuxt-phosphor-icons"
   ],
   primevue: {
     options: {
