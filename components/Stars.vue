@@ -1,5 +1,4 @@
 <template>
-  <p> DATA: {{ small }} and {{ rating }} and {{ clickable }}</p>
   <div class="star-rating" :class="{'clickable-rating': clickable}" @mouseleave="handleHover(null)">
     <PhosphorIconStar
         :size="small ? 18 : 24"
@@ -49,6 +48,8 @@ const handleHover = (newHover) => {
 <style scoped>
 .star-rating {
   display: flex;
+  align-content: center;
+  justify-content: center;
   gap: 5px;
   width: 100%;
   color: var(--secondary);
