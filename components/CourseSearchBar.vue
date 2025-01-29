@@ -84,7 +84,6 @@ const selectedSearch = ref({ name: 'Course', code: 'CRS' });
 const search_type = ref([
   { name: 'Course', code: 'CRS' },
   { name: 'Professor', code: 'PRF' },
-  { name: 'University', code: 'UNI' }
 ]);
 
 const onFormSubmit = ({ valid }) => {
