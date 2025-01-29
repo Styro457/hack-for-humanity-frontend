@@ -9,14 +9,44 @@
 }
 
 h1 {
-    font-size: 4rem;
+    font-size: 72px;
     margin: 1rem 0;
     line-height: 1.2;
-    color: var(--p-surface-900);
+    font-family: SchibstedGrotesk;
+    color: var(--primary);
 }
 
 h2 {
-    font-size: 1.1rem;
+    font-size: 48px;
+    font-family: SchibstedGrotesk;
+    color: var(--primary);
+
+}
+
+h3 {
+    font-size: 32px;
+    font-family: SchibstedGrotesk;
+    color: var(--primary);
+}
+
+h4, .subtitle {
+    font-size: 24px;
+    font-family: SchibstedGrotesk;
+    color: var(--primary);
+}
+
+p, .text {
+    font-size: 18px;
+    line-height: 1.6;
+    font-family: Inter;
+    color: var(--primary);
+}
+
+.subtext {
+    font-size: 16px;
+    line-height: 1.6;
+    font-family: Inter;
+    color: var(--primary);
 }
 
 .bold-700 {
@@ -29,4 +59,8 @@ h2 {
 
 .bold-900 {
     font-weight: 900;
+}
+
+.secondary {
+    color: var(--secondary);
 }

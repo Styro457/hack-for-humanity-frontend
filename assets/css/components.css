@@ -1,0 +1,27 @@
+.container {
+    padding: 8px 16px;
+    background: white;
+    border: rgba(217, 217, 217, 1) 1px solid;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.content {
+    flex-shrink: 0;
+    white-space: nowrap;
+    flex-basis: auto;
+}
+
+.columns {
+    display: flex;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+}

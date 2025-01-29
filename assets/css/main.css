@@ -1,6 +1,8 @@
 @import './base.css';
+@import './fonts.css';
 @import "./text.css";
 @import './auth.css';
+@import "./components.css";
 
 body {
     display: flex;
@@ -43,13 +45,10 @@ a,
     }
 }
 
-.secondary {
-    color: #57B8FF;
-}
-
 .p-inputtext.p-autocomplete-input {
     border: none !important;
     background: none;
     box-shadow: none;
     width: 100%;
 }
+
