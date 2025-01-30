@@ -62,7 +62,7 @@ const menu_items = session.value === null || session.value === undefined ? ref([
   <header class="card">
     <Menubar :model="items" class="navbar">
       <template #start>
-        <NuxtLink to="/"><h2>Logo</h2></NuxtLink>
+        <NuxtLink to="/"><h4>Logo</h4></NuxtLink>
       </template>
       <template #end>
         <Menubar :model="menu_items" class="sub-menu">

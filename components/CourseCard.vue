@@ -33,9 +33,9 @@
 <style scoped>
 
 .first {
-  width: 20%;
-  text-align: center;
-}
+   width: 20%;
+   text-align: center;
+ }
 
 .second {
   width: 60%;
@@ -49,9 +49,6 @@
 }
 .nested-column {
   width: 32%;
-}
-.row {
-  align-self: end;
 }
 
 .subnote {

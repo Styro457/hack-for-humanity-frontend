@@ -1,7 +1,7 @@
 <template>
   <div class="star-rating" :class="{'clickable-rating': clickable}" @mouseleave="handleHover(null)">
     <PhosphorIconStar
-        :size="small ? 18 : 24"
+        :size="size === 'small' ? 18 : (size === 'big' ? 32 : 24)"
         v-for="(star, index) in 5"
         :key="index"
         :weight="index < (hoverRating || rating) ? 'fill' : 'regular'"
@@ -18,7 +18,7 @@ import { defineProps, defineEmits, ref, watch } from 'vue';
 const props = defineProps({
   rating: { type: Number, default: 0 },
   clickable: { type: Boolean, default: false },
-  small: { type: Boolean, default: false }
+  size: { type: String, default: "" }
 });
 
 const emit = defineEmits(['update:rating']);
