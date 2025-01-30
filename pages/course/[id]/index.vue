@@ -178,6 +178,9 @@ watchEffect(async () => {
     </div>
   </div>
 
+  
+  <Button label="Write a review" @click="$router.push(`/course/${id}/review`)"/>
+
   <div v-if="loading">
     <p>Loading reviews...</p>
   </div>
