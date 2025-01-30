@@ -12,38 +12,32 @@
   </div>
 </template>
 
-<script setup>
-import { defineProps, defineEmits, ref, watch } from 'vue';
+  <script setup>
+    const props = defineProps({
+      rating: { type: Number, default: 0 },
+      clickable: { type: Boolean, default: false },
+      size: { type: String, default: "" }
+    });
 
-const props = defineProps({
-  rating: { type: Number, default: 0 },
-  clickable: { type: Boolean, default: false },
-  size: { type: String, default: "" }
-});
+    const emit = defineEmits(['update:rating']);
+    const hoverRating = ref(null);
 
-const emit = defineEmits(['update:rating']);
-const rating = ref(props.rating);
-const hoverRating = ref(null);
+    const rating = computed({
+      get: () => props.rating,
+      set: (value) => emit('update:rating', value),
+    });
 
-watch(() => props.rating, (newValue) => {
-  if(!props.clickable)
-    return;
-  rating.value = newValue;
-});
+    const updateRating = (newRating) => {
+      if (!props.clickable) return;
+      rating.value = newRating;
+    };
 
-const updateRating = (newRating) => {
-  if(!props.clickable)
-    return;
-  rating.value = newRating;
-  emit('update:rating', newRating);
-};
+    const handleHover = (newHover) => {
+      if (!props.clickable) return;
+      hoverRating.value = newHover;
+    };
+  </script>
 
-const handleHover = (newHover) => {
-  if(!props.clickable)
-    return;
-  hoverRating.value = newHover;
-};
-</script>
 
 <style scoped>
 .star-rating {

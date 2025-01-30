@@ -6,21 +6,19 @@ import { useToast } from "primevue/usetoast";
 import { z } from 'zod';
 
 const router = useRouter();
-const API_URL = "http://127.0.0.1:8000";
-// TODO: Make a constants file
 
-const email = ref(null);
+const username = ref(null);
 const password = ref(null);
 const error = ref(null);
 
 const initialValues = ref({
-  email: '',
+  username: '',
   password: ''
 });
 
 const resolver = ref(zodResolver(
     z.object({
-      email: z.string().min(1, { message: 'Email is required.' }),//.email({ message: 'Invalid email address.' }),
+      username: z.string().min(1, { message: 'Username is required.' }),//.email({ message: 'Invalid email address.' }),
       password: z.string().min(1, { message: 'Password is required.' }),
     })
 ));
@@ -34,22 +32,24 @@ const onFormSubmit = ({ valid }) => {
 
 const handleLogin = async () => {
   try {
-    //error.value = null;
-    const response = await $fetch(API_URL + '/users/login', {
+    const response = await $fetch(getAPI() + '/users/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: { 'username': email.value, 'password': password.value}
+      body: { 'username': username.value, 'password': password.value}
     });
     if (response.success) {
-      // Redirect after successful login
       await router.push('/');
     } else {
       error.value = response.message || 'Invalid login credentials.';
     }
   } catch(err) {
-    error.value = 'An error occurred. Please try again.';
-    console.log(err)
+    if (err.response && err.response.status === 404) {
+      error.value = 'Incorrect username or password';
+    } else {
+      // General error message for other errors
+      error.value = 'An error occurred. Please try again.';
+    }    console.log(err)
   }
 };
 </script>
@@ -62,10 +62,10 @@ const handleLogin = async () => {
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
         <div class="auth element">
           <FloatLabel variant="on">
-            <InputText name="email" type="text" v-model="email" class="auth input" />
-            <label for="on_label">Email</label>
+            <InputText name="username" type="text" v-model="username" class="auth input" />
+            <label for="on_label">Username</label>
           </FloatLabel>
-          <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error?.message }}</Message>
+          <Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">{{ $form.username.error?.message }}</Message>
         </div>
         <div class="auth element">
           <FloatLabel variant="on">

@@ -13,7 +13,7 @@ body {
 .app {
     margin: 0 auto;
     font-weight: normal;
-    width: 100%;
+    width: 100vw;
     display: grid;
     justify-self: center;
     justify-content: center;

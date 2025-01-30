@@ -2,10 +2,8 @@
 
 import { ref } from 'vue';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
-import { useToast } from "primevue/usetoast";
 import { z } from 'zod';
-
-const API_URL = "http://127.0.0.1:8000";
+import {getAPI} from "~/utils/constants";
 
 const username = ref('');
 const email = ref('');
@@ -42,7 +40,7 @@ const handleSignUp = async () => {
   try {
     //error.value = null;
     console.log({ 'username': username.value, 'email': email.value,'password': password.value});
-    const response = await $fetch(API_URL + '/users/signup', {
+    const response = await $fetch(getAPI() + '/users/signup', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
