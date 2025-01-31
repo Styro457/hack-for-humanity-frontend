@@ -55,7 +55,12 @@ const handleSignUp = async () => {
         },
       });
     } else {
-      error.value = response.message || 'An error occurred.';
+      router.push({
+        path: '/',
+        query: {
+          response: response.message,
+        },
+      });
     }
   } catch(err) {
     error.value = 'An error occurred. Please try again.';
