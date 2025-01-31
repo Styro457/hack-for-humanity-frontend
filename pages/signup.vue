@@ -46,16 +46,16 @@ const handleSignUp = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: { 'username': username.value, 'email': email.value,'password': password.value}
     });
-    if (response.success) {
+    if (response.status === "success") {
       // Redirect after successful login
-      router.push({
+      await router.push({
         path: '/',
         query: {
-          response: 'FUCK OFF',
+          response: response.message,
         },
       });
     } else {
-      router.push({
+      await router.push({
         path: '/',
         query: {
           response: response.message,

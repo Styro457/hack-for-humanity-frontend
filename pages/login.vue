@@ -38,10 +38,21 @@ const handleLogin = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: { 'username': username.value, 'password': password.value}
     });
-    if (response.success) {
-      await router.push('/');
+    if (response.status === "success") {
+      // Redirect after successful login
+      await router.push({
+        path: '/',
+        query: {
+          response: response.message,
+        },
+      });
     } else {
-      error.value = response.message || 'Invalid login credentials.';
+      await router.push({
+        path: '/',
+        query: {
+          response: response.message,
+        },
+      });
     }
   } catch(err) {
     if (err.response && err.response.status === 404) {
