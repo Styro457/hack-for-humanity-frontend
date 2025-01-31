@@ -53,14 +53,14 @@ const handleSignUp = async () => {
     if (response.status === "success") {
       // Redirect after successful login
       await router.push({
-        path: '/',
+        path: '/login',
         query: {
           message: "signup"
         },
       });
     } else {
       await router.push({
-        path: '/',
+        path: '/login',
         query: {
           message: "signup"
         },
