@@ -65,13 +65,12 @@ const user_items = [
     ]
   }
 ];
-watchEffect(async () => {
+onMounted(() => {
   if (!sessionCookie.value) {
     menu_items.value = guest_items;
-  }
-  else {
-    session.value = usernameCookie.value
-    menu_items.value = user_items
+  } else {
+    session.value = usernameCookie.value;
+    menu_items.value = user_items;
   }
 });
 </script>
