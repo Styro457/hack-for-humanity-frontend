@@ -27,5 +27,13 @@ export default defineNuxtConfig({
   devServer: {
     host: '127.0.0.1',
     port: 3001
+  },
+  head: {
+    meta: [
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      }
+    ]
   }
 })

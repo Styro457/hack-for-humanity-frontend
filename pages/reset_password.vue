@@ -55,7 +55,7 @@ const handleReset = async () => {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: { 'token': token, "uidb64":uidb64, 'new_password': password.value}
+      body: { 'token': token, 'uidb64':uidb64, 'new_password': password.value}
     });
     loading.value = false;
 

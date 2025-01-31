@@ -52,6 +52,32 @@
     <h2>Recent Course Reviews</h2>
     <p class="box desc">See what students are saying! Check out the latest reviews to get real,<br>
       up-to-date insights on courses from universities around the world. </p>
+    <Button label="Browse Courses & Professors" @click="navigateTo('/search')"/>
+  </div>
+  <div class="info container center full">
+      <div class="columns site-stats">
+        <div class="column half">
+          <h2 class="accent tleft bold-600">
+            Ready to start reviewing<br>
+            your own courses?
+          </h2>
+          <p class="white box">
+            Your experience matters! Share your thoughts on the courses you've taken
+            and help other students make smarter choices. Join our community today
+            and start leaving reviews that make a difference.
+          </p>
+          <Button label="Sign up to write your first review " class="tleft box"/>
+        </div>
+        <div class="column half center">
+          <h2 class="white">STARS :)</h2>
+        </div>
+    </div>
+  </div>
+  <div class="info center">
+    <h2>Recent Course Reviews</h2>
+    <p class="box desc">See what students are saying! Check out the latest reviews to get real,<br>
+      up-to-date insights on courses from universities around the world. </p>
+    <Button label="Browse Courses & Professors" @click="navigateTo('/search')"/>
   </div>
 
 
@@ -69,8 +95,12 @@
   max-width: none;
   background: var(--primary);
   color: var(--background);
-  padding: 6rem
-;
+  padding: 6rem;
+}
+
+.half {
+  width: 50%;
+  text-align: left;
 }
 
 .white {
