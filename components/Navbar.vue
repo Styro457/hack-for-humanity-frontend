@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const session = useCookie("session")
+const session = useCookie("sessionid")
 
 const log_out = () => {
   session.value = null
