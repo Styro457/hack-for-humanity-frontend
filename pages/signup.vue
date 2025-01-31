@@ -10,6 +10,9 @@ const email = ref('');
 const password = ref('');
 
 const error = ref(null);
+const router = useRouter();
+
+const loading = ref(false);
 
 const initialValues = ref({
   username: '',
@@ -37,6 +40,7 @@ const onFormSubmit = ({ valid }) => {
 };
 
 const handleSignUp = async () => {
+  loading.value = true;
   try {
     //error.value = null;
     console.log({ 'username': username.value, 'email': email.value,'password': password.value});
@@ -46,6 +50,7 @@ const handleSignUp = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: { 'username': username.value, 'email': email.value,'password': password.value}
     });
+    loading.value = false;
     if (response.status === "success") {
       // Redirect after successful login
       await router.push({
@@ -63,6 +68,7 @@ const handleSignUp = async () => {
       });
     }
   } catch(err) {
+    loading.value = false;
     error.value = 'An error occurred. Please try again.';
     console.log(err)
   }
@@ -104,7 +110,7 @@ const handleSignUp = async () => {
           </FloatLabel>
           <Message v-if="$form.confirmPassword?.invalid" severity="error" size="small" variant="simple">{{ $form.confirmPassword.error?.message }}</Message>
         </div>
-        <Button type="submit" label="Sign Up" class="auth submit"/>
+        <Button type="submit" label="Sign Up" class="auth submit" :disabled="loading"/>
       </Form>
     </template>
     <template #footer>
