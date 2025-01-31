@@ -74,9 +74,9 @@
     </div>
   </div>
   <div class="info center">
-    <h2>Recent Course Reviews</h2>
-    <p class="box desc">See what students are saying! Check out the latest reviews to get real,<br>
-      up-to-date insights on courses from universities around the world. </p>
+    <h2>FAQ</h2>
+    <p class="box desc">Got questions? We've got answers! Explore our frequently asked questions to learn how our<br>
+      platform works, how to get started, and why it's the best place for university course reviews. </p>
     <Button label="Browse Courses & Professors" @click="navigateTo('/search')"/>
   </div>
 

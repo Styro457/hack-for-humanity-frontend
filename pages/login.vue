@@ -13,7 +13,8 @@ const messages = {
   "reset": "Password reset successful. Log in with your new password.",
   "reset_request": "Check your email for a password reset link.",
   "confirm": "Account activated. Log in to continue.",
-  "signup": "Account created successfully. Check your email for an activation link before continuing."
+  "verified": "Account created successfully. Check your email for an activation link before continuing.",
+  "verify_failed": "Account activation failed. Please try again.",
 }
 
 const username = ref(null);

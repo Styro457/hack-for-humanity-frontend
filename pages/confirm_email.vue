@@ -3,8 +3,8 @@
 const route = useRoute();
 const router = useRouter();
 
-const uidb64 = route.params.uidb64;
-const token = route.params.token;
+const uidb64 = route.query.uidb64;
+const token = route.query.token;
 
 const handleConfirmation = async () => {
   try {
