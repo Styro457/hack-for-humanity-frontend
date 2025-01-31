@@ -11,6 +11,8 @@ const username = ref(null);
 const password = ref(null);
 const error = ref(null);
 
+const usernameCookie = useCookie("username");
+
 const initialValues = ref({
   username: '',
   password: ''
@@ -38,25 +40,19 @@ const handleLogin = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: { 'username': username.value, 'password': password.value}
     });
-    if (response.status === "success") {
       // Redirect after successful login
-      await router.push({
-        path: '/',
-        query: {
-          response: response.message,
-        },
-      });
-    } else {
-      await router.push({
-        path: '/',
-        query: {
-          response: response.message,
-        },
-      });
+    if(username.value) {
+      usernameCookie.value = username.value.toLowerCase();
     }
+      await router.push({
+        path: '/',
+        query: {
+          response: response.message,
+        },
+      });
   } catch(err) {
     if (err.response && err.response.status === 404) {
-      error.value = 'Incorrect username or password';
+      error.value = 'Incorrect username or password. Make sure your email is activated.';
     } else {
       // General error message for other errors
       error.value = 'An error occurred. Please try again.';
