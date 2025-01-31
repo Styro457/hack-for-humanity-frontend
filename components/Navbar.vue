@@ -3,12 +3,12 @@
 import {watchEffect} from "vue";
 
 const session = ref("");
+const usernameCookie = useCookie("username");
+const sessionCookie = useCookie("sessionid");
+const tokenCookie = useCookie("csrftoken");
 
 const log_out = () => {
   session.value = null;
-  const usernameCookie = useCookie("username");
-  const sessionCookie = useCookie("sessionid");
-  const tokenCookie = useCookie("csrftoken");
   usernameCookie.value = null;
   sessionCookie.value = null;
   tokenCookie.value = null;
@@ -66,14 +66,11 @@ const user_items = [
   }
 ];
 watchEffect(async () => {
-  const username = useCookie("username")
-  const sessionCookie = useCookie("sessionid");
-
-  if (!username.value || !sessionCookie.value) {
+  if (!sessionCookie.value) {
     menu_items.value = guest_items;
   }
   else {
-    session.value = username
+    session.value = usernameCookie.value
     menu_items.value = user_items
   }
 });
