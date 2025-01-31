@@ -1,9 +1,17 @@
 <script setup lang="ts">
 
-const session = useCookie("sessionid")
+import {watchEffect} from "vue";
+
+const session = ref("");
 
 const log_out = () => {
-  session.value = null
+  session.value = null;
+  const usernameCookie = useCookie("username");
+  const sessionCookie = useCookie("sessionid");
+  const tokenCookie = useCookie("csrftoken");
+  usernameCookie.value = null;
+  sessionCookie.value = null;
+  tokenCookie.value = null;
   setTimeout(() => {
     navigateTo("/")
   }, 5000);
@@ -21,7 +29,10 @@ const items = ref([
   }
 ]);
 
-const menu_items = session.value === null || session.value === undefined ? ref([
+const menu_items = ref([]);
+
+//session.value === null || session.value === undefined ?
+const guest_items = [
   {
     label: 'Log In',
     severity: 'secondary',
@@ -33,7 +44,9 @@ const menu_items = session.value === null || session.value === undefined ? ref([
     button: true,
     command: () => navigateTo("/signup")
   }
-]) : ref([
+];
+
+const user_items = [
   {
     label: 'Write a review',
     button: true
@@ -45,17 +58,23 @@ const menu_items = session.value === null || session.value === undefined ? ref([
         label: 'Courses'
       },
       {
-        label: 'Settings'
-      },
-      {
         label: "Log Out",
         color: 'red',
         command: log_out
       }
     ]
   }
-])
-
+];
+watchEffect(async () => {
+  const username = useCookie("username")
+  if (!username.value) {
+    menu_items.value = guest_items;
+  }
+  else {
+    session.value = username
+    menu_items.value = user_items
+  }
+});
 </script>
 
 <template>
