@@ -1,37 +1,39 @@
 <script setup lang="ts">
-
-import {watchEffect} from "vue";
+import { computed, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
 
-const uidb64 = route.query.uidb64;
-const token = route.query.token;
+const uidb64 = computed(() => route.query.uidb64);
+const token = computed(() => route.query.token);
 
 const handleConfirmation = async () => {
   try {
-    const response = await $fetch("http://ui.styro.dev/emails/activate/" + uidb64 + "/" + token, {
-      method: 'GET'
+    const response = await $fetch(`http://ui.styro.dev/emails/activate/${uidb64.value}/${token.value}`, {
+      method: "GET",
     });
     console.log(response);
     await router.push({
-      path: '/login',
+      path: "/login",
       query: {
-        message: "verified"
+        message: "verified",
       },
     });
-  } catch(err) {
+  } catch (err) {
     await router.push({
-      path: '/login',
+      path: "/login",
       query: {
-        message: "verifiy_failed"
+        message: "verify_failed",
       },
     });
   }
 };
 
-watchEffect(async () => {
-  await handleConfirmation();
+watchEffect(() => {
+  if (uidb64.value && token.value) {
+    handleConfirmation();
+  }
 });
 </script>
 
