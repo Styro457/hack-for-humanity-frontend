@@ -74,19 +74,23 @@ const user_items = [
     ]
   }
 ];
-onMounted(() => {
+
+async function handleSession() {
   try {
-    $fetch(getAPI() + '/users/get_session', {
+    const response = await $fetch(getAPI() + '/users/get_session', {
       method: 'GET',
-      credentials: 'include'
-    });
+      credentials: 'include',
+    });    console.error(err);  // Optionally log the error for debugging
+
     session.value = usernameCookie.value;
     menu_items.value = user_items;
-  }
-  catch(err) {
+  } catch (err) {
     menu_items.value = guest_items;
   }
-});
+}
+
+await handleSession();
+
 </script>
 
 <template>
