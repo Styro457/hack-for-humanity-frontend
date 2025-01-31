@@ -11,6 +11,8 @@ const username = ref(null);
 const password = ref(null);
 const error = ref(null);
 
+const loading = ref(false);
+
 const usernameCookie = useCookie("username");
 
 const initialValues = ref({
@@ -33,6 +35,8 @@ const onFormSubmit = ({ valid }) => {
 
 
 const handleLogin = async () => {
+  error.value = null;
+  loading.value = true;
   try {
     const response = await $fetch(getAPI() + '/users/login', {
       method: 'POST',
@@ -40,7 +44,8 @@ const handleLogin = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: { 'username': username.value, 'password': password.value}
     });
-      // Redirect after successful login
+    loading.value = false;
+    // Redirect after successful login
     if(username.value) {
       usernameCookie.value = username.value.toLowerCase();
     }
@@ -51,6 +56,7 @@ const handleLogin = async () => {
         },
       });
   } catch(err) {
+    loading.value = false;
     if (err.response && err.response.status === 404) {
       error.value = 'Incorrect username or password. Make sure your email is activated.';
     } else {
@@ -81,7 +87,7 @@ const handleLogin = async () => {
           </FloatLabel>
           <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{ $form.password.error?.message }}</Message>
         </div>
-        <Button type="submit" label="Log In" class="auth submit"/>
+        <Button type="submit" label="Log In" class="auth submit" :disabled="loading"/>
       </Form>
     </template>
     <template #footer>
