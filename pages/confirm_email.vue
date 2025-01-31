@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import {watchEffect} from "vue";
+
 const route = useRoute();
 const router = useRouter();
 
@@ -27,7 +29,10 @@ const handleConfirmation = async () => {
     });
   }
 };
-await handleConfirmation();
+
+watchEffect(async () => {
+  await handleConfirmation();
+});
 </script>
 
 <template>
