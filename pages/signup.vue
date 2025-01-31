@@ -41,9 +41,8 @@ const onFormSubmit = ({ valid }) => {
 
 const handleSignUp = async () => {
   loading.value = true;
+  error.value = null;
   try {
-    //error.value = null;
-    console.log({ 'username': username.value, 'email': email.value,'password': password.value});
     const response = await $fetch(getAPI() + '/users/signup', {
       method: 'POST',
       credentials: 'include',
@@ -56,14 +55,14 @@ const handleSignUp = async () => {
       await router.push({
         path: '/',
         query: {
-          response: response.message,
+          message: "signup"
         },
       });
     } else {
       await router.push({
         path: '/',
         query: {
-          response: response.message,
+          message: "signup"
         },
       });
     }

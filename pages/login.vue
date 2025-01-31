@@ -4,12 +4,27 @@ import { ref } from 'vue';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { useToast } from "primevue/usetoast";
 import { z } from 'zod';
+import {useRoute} from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
+
+const messages = {
+  "reset": "Password reset successful. Log in with your new password.",
+  "reset_request": "Check your email for a password reset link.",
+  "confirm": "Account activated. Log in to continue.",
+  "signup": "Account created successfully. Check your email for an activation link before continuing."
+}
 
 const username = ref(null);
 const password = ref(null);
 const error = ref(null);
+const message = ref(null);
+
+const message_name = route.query.message;
+if (message_name) {
+  message.value = messages[message_name];
+}
 
 const loading = ref(false);
 
@@ -68,8 +83,11 @@ const handleLogin = async () => {
 </script>
 
 <template>
+  <Message v-if="message" size="small" variant="simple" class="message">{{ message }}</Message>
   <Card class="auth panel">
-    <template #header>Log in to Site</template>
+    <template #header>
+      Log in to Site
+    </template>
     <template #content>
       <Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
@@ -94,10 +112,15 @@ const handleLogin = async () => {
       <p class="m-0">
         Don't have an account? <NuxtLink to="/signup" class="text-link">Sign up</NuxtLink>
       </p>
+      <p class="m-0 box">
+        <NuxtLink to="/reset_password" class="text-link">Reset your password</NuxtLink>
+      </p>
     </template>
   </Card>
 </template>
 
 <style scoped>
-
+.message {
+  margin-bottom: 16px;
+}
 </style>
