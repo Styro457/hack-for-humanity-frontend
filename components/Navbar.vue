@@ -80,11 +80,12 @@ async function handleSession() {
     const response = await $fetch(getAPI() + '/users/get_session', {
       method: 'GET',
       credentials: 'include',
-    });    console.error(err);  // Optionally log the error for debugging
+    });
 
     session.value = usernameCookie.value;
     menu_items.value = user_items;
   } catch (err) {
+    console.log(err);
     menu_items.value = guest_items;
   }
 }
