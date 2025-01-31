@@ -8,6 +8,15 @@ const sessionCookie = useCookie("sessionid");
 const tokenCookie = useCookie("csrftoken");
 
 const log_out = () => {
+  try {
+    $fetch(getAPI() + '/users/delete_session', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (e) {
+    console.log(e);
+  }
   session.value = null;
   usernameCookie.value = null;
   sessionCookie.value = null;
@@ -66,11 +75,16 @@ const user_items = [
   }
 ];
 onMounted(() => {
-  if (!sessionCookie.value) {
-    menu_items.value = guest_items;
-  } else {
+  try {
+    $fetch(getAPI() + '/users/get_session', {
+      method: 'GET',
+      credentials: 'include'
+    });
     session.value = usernameCookie.value;
     menu_items.value = user_items;
+  }
+  catch(err) {
+    menu_items.value = guest_items;
   }
 });
 </script>
