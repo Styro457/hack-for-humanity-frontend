@@ -9,7 +9,7 @@ const tokenCookie = useCookie("csrftoken");
 
 const log_out = () => {
   try {
-    $fetch(getAPI() + '/users/delete_session', {
+    $fetch(getAPI() + '/users/logout', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }
