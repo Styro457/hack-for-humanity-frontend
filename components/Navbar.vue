@@ -67,7 +67,9 @@ const user_items = [
 ];
 watchEffect(async () => {
   const username = useCookie("username")
-  if (!username.value) {
+  const sessionCookie = useCookie("sessionid");
+
+  if (!username.value || !sessionCookie.value) {
     menu_items.value = guest_items;
   }
   else {
