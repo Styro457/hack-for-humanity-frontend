@@ -22,9 +22,7 @@ const log_out = async () => {
   usernameCookie.value = null;
   sessionCookie.value = null;
   tokenCookie.value = null;
-  setTimeout(() => {
-    navigateTo("/");
-  }, 5000);
+  window.location.href = "https://uni.styro.dev/" //TODO: Use router
 };
 
 const items = ref([
