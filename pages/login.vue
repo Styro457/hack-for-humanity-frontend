@@ -67,6 +67,7 @@ const handleLogin = async () => {
     }
 
     const redirectTo = route.query.redirect || '/';
+    setConnected(true);
 
     await router.push({
       path: redirectTo,
