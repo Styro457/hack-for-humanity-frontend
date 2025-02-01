@@ -43,6 +43,7 @@
 <style scoped>
 .star-rating {
   display: flex;
+  flex-direction: row;
   align-content: center;
   justify-content: center;
   gap: 5px;
