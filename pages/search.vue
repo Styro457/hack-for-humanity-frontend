@@ -7,7 +7,7 @@ const route = useRoute();
 const router = useRouter();
 
 const searchTerm = ref(route.query.search ?? "");
-const searchOption = ref(route.query.option);
+const searchOption = ref(route.query.option ? parseInt(route.query.option) : null);
 const searchResults = ref([]);
 const loading = ref(true);
 
@@ -110,7 +110,7 @@ onMounted(() => {
     <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="searchOption" class="box" />
 
     <p v-if="loading" class="tcenter gray">Loading courses...</p>
-    <div v-else-if="searchResults.length > 0" class="courses">
+    <div v-else-if="searchResults.length > 0" class="courses center">
       <p class="tcenter gray">{{searchResults.length}} Results</p>
       <CourseCard v-for="course in searchResults" :key="course.id" :course="course" />
     </div>
@@ -120,7 +120,7 @@ onMounted(() => {
 
 <style scoped>
 .courses {
-  width: 50vw;
+  width: 100%;
 }
 
 .title {
@@ -131,5 +131,6 @@ onMounted(() => {
   margin-top: 400px;
   min-height:  100vh;
   width: 90vw;
+  max-width: 1400px;
 }
 </style>
