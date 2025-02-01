@@ -43,7 +43,7 @@ const handleSignUp = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await $fetch(getAPI() + '/users/signup/', {
+    const response = await $fetch(getAPI() + '/users/signup', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

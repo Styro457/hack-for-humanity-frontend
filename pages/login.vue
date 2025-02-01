@@ -54,7 +54,7 @@ const handleLogin = async () => {
   error.value = null;
   loading.value = true;
   try {
-    const response = await $fetch(getAPI() + '/users/login/', {
+    const response = await $fetch(getAPI() + '/users/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

@@ -78,6 +78,8 @@ const user_items = [
   }
 ];
 
+let tries = ref(0);
+
 async function handleSession() {
   try {
     const response = await $fetch(getAPI() + '/users/get_session', {
@@ -89,13 +91,27 @@ async function handleSession() {
     menu_items.value = user_items;
     setConnected(true);
   } catch (err) {
-    console.log(err);
     menu_items.value = guest_items;
     setConnected(false);
+    if(tries.value == 0) {
+      tries.value += 1;
+      setTimeout(() => {
+        try {
+          handleSession();
+        } catch(ignore) {}
+      }, 3000);
+    }
   }
 }
 
-await handleSession();
+const hasCheckedSession = ref(false);
+
+onMounted(() => {
+  if (!hasCheckedSession.value) {
+    handleSession();
+    hasCheckedSession.value = true;
+  }
+});
 
 </script>
 
