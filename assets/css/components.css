@@ -91,3 +91,14 @@
 .first-elem {
     margin-top: 120px;
 }
+
+@media (max-width: 768px) {
+    .stars-img {
+        width: 200px;
+        height: auto;
+    }
+
+    .column {
+        gap: 0.1rem;
+    }
+}

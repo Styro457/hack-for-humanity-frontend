@@ -117,5 +117,11 @@
   opacity: 40%;
 }
 
+@media (max-width: 768px) {
+  .columns {
+    flex-direction: column;
+  }
+}
+
 
 </style>

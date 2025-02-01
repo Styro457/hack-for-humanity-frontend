@@ -100,7 +100,7 @@ watchEffect(async () => {
           </div>
         </div>
         <div class="column half center">
-          <img src="../assets/images/stars-uninsight.svg" width="467px" height="auto"  alt="⭐⭐⭐⭐⭐"/>
+          <img src="../assets/images/stars-uninsight.svg" width="467px" height="auto"  alt="⭐⭐⭐⭐⭐" class="stars-img"/>
         </div>
     </div>
   </div>

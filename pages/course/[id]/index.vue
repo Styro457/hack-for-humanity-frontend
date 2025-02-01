@@ -220,6 +220,13 @@ watchEffect(async () => {
   max-width: 700px;
 }
 
+@media (max-width: 768px) {
+  .course-info {
+    max-width: 600px;
+    width: 90vw;
+  }
+}
+
 .main_stats {
   padding-top: 34px;
   padding-bottom: 34px;

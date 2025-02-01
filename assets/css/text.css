@@ -103,3 +103,52 @@ p, .text {
 .tright {
     text-align: right;
 }
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 32px;
+        line-height: 1.2;
+        font-family: SchibstedGrotesk;
+        color: var(--primary);
+    }
+
+    h2, .title2 {
+        font-size: 24px;
+        font-family: SchibstedGrotesk;
+        line-height: 1.2;
+        color: var(--primary);
+
+    }
+
+    h3 {
+        font-size: 20px;
+        font-family: SchibstedGrotesk;
+        color: var(--primary);
+    }
+
+    h4, .subtitle {
+        font-size: 16px;
+        font-family: SchibstedGrotesk;
+        color: var(--primary);
+        line-height: 1.2;
+    }
+
+    p, .text {
+        font-size: 16px;
+        font-family: Inter;
+        color: var(--primary);
+        line-height: 1.2;
+    }
+
+    .box {
+        margin: 24px auto;
+        max-width: 500px;
+    }
+
+    .subtext {
+        font-size: 14px;
+        font-family: Inter;
+        line-height: 1.2;
+        color: var(--primary);
+    }
+}

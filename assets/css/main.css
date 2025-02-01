@@ -47,6 +47,17 @@ a,
     }
 }
 
+@media (max-width: 768px) {
+    body {
+        /* Mobile-specific styles go here */
+    }
+
+    .app {
+        padding: 1rem; /* Adjust the padding for mobile */
+    }
+}
+
+
 .p-inputtext.p-autocomplete-input {
     border: none !important;
     background: none;
