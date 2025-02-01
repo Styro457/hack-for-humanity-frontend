@@ -59,22 +59,6 @@ function getStatDescription(rating:number) {
   return statDesc[Math.floor(rating-0.45)];
 }
 
-const getReview = async (course_id) => {
-  try {
-    const response: Response = await $fetch(getAPI() + 'reviews/get_reviews_for_course/' + course_id, {
-      method: 'GET',
-      credentials: 'include'
-    });
-    if (response.status === "success") {
-      reviews.value = response.data;
-    } else {
-      console.log(response.message);
-    }
-  } catch(err) {
-    console.log(err)
-  }
-}
-
 const reviews = ref([]);
 const loading = ref(true);
 
@@ -84,7 +68,6 @@ async function getReviews(course_id: string) {
       method: "GET",
       credentials: "include",
     });
-    console.log(response);
     return response;
   } catch (err) {
     console.error("Search failed:", err);
@@ -134,7 +117,7 @@ watchEffect(async () => {
             <p class="">Overall Rating</p>
             <h2>{{course.avg_course_rating}}</h2>
             <Stars :rating="parseInt(avg_rating)" size="small" />
-            <p class="subtext gray">( {{reviews.length}} reviews )</p>
+            <p class="subtext gray">( {{reviews.length}} review{{reviews.length == 1 ? "" : "s"}} )</p>
           </div>
           <div class="container column center main_stats">
             <p class="subtext gray">Professor</p>
@@ -190,7 +173,7 @@ watchEffect(async () => {
 
 
     <div class="reviews-header">
-      <span class="bold-600 text">{{ reviews.length }} Reviews</span>
+      <span class="bold-600 text">{{ reviews.length }} Review{{reviews.length == 1 ? "" : "s"}}</span>
       <Button label="Write a review" @click="$router.push(`/course/${id}/review`)"/>
     </div>
     <div v-if="loading">
@@ -217,7 +200,8 @@ watchEffect(async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  margin-top: 48px;
 }
 
 .first-elem {
@@ -259,6 +243,6 @@ watchEffect(async () => {
 }
 
 .bottom {
-  margin-top: 200px;
+  margin-top: 220px;
 }
 </style>

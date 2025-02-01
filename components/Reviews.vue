@@ -36,7 +36,7 @@ const props = defineProps({
           <p class="gray subtext tcenter stat-name">Usefulness</p>
         </div>
       </div>
-      <p class="subtext gray"><i class="pi texticon like" :class="review.liked ? 'pi-thumbs-up-fill' : 'pi-thumbs-up'"></i>3 likes</p>
+<!--      <p class="subtext gray"><i class="pi texticon like" :class="review.liked ? 'pi-thumbs-up-fill' : 'pi-thumbs-up'"></i>3 likes</p>-->
     </div>
 
   </div>

@@ -34,7 +34,8 @@ async function search(query: string) {
 
 const fetchSearchResults = async () => {
   loading.value = true;
-  searchResults.value = await search(searchTerm.value.trim());
+  const currentValue = searchTerm.value || "";
+  searchResults.value = await search(currentValue.trim());
   loading.value = false;
   if(searchTerm.value !== null)
     scrollToResults();
@@ -109,7 +110,7 @@ onMounted(() => {
 
   <div class="results">
     <h3 class="tleft">Find The Right Course</h3>
-    <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="parseInt(searchOption)" class="box" />
+    <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="parseInt(searchOption)" class="search-bottom" />
 
     <p v-if="loading" class="tcenter gray">Loading courses...</p>
     <div v-else-if="searchResults.length > 0" class="courses center">
@@ -134,5 +135,9 @@ onMounted(() => {
   min-height:  100vh;
   width: 90vw;
   max-width: 1400px;
+}
+
+.search-bottom {
+  margin: 24px 0;
 }
 </style>

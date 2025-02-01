@@ -26,7 +26,7 @@ const resolver = ref(zodResolver(
       username: z.string().min(1, { message: 'Username is required.' }),
       email: z.string().min(1, { message: 'Email is required.' }).email({ message: 'Invalid email address.' }),
       confirmPassword: z.string().min(1, { message: 'Password confirmation is required.' }),
-      password: z.string().min(1, { message: 'Password is required.' }),
+      password: z.string().min(1, { message: 'Password is required.' }).min(8, { message: 'Password must be at least 8 characters long.' }),
     }).refine(data => data.password === data.confirmPassword, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
@@ -77,7 +77,7 @@ const handleSignUp = async () => {
 
 <template>
   <Card class="auth panel">
-    <template #header>Create an Account</template>
+    <template #header><h3 class="bold-700">Create an Account</h3></template>
     <template #content>
       <Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
@@ -88,14 +88,14 @@ const handleSignUp = async () => {
           </FloatLabel>
           <Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error?.message }}</Message>
         </div>
-        <div class="auth element">
+        <div class="auth element separate">
           <FloatLabel variant="on">
             <InputText name="email" type="text" class="auth input" v-model="email" />
             <label for="on_label">Email</label>
           </FloatLabel>
           <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">{{ $form.email.error?.message }}</Message>
         </div>
-        <div class="auth element">
+        <div class="auth element separate">
           <FloatLabel variant="on">
             <InputText name="password" type="password" class="auth input" v-model="password" />
             <label for="on_label">Password</label>
@@ -121,5 +121,6 @@ const handleSignUp = async () => {
 </template>
 
 <style scoped>
-
+.separate {
+}
 </style>

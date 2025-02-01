@@ -27,6 +27,13 @@
     text-align: left;
 }
 
+.cright {
+    justify-items: flex-end;
+    align-items: flex-end;
+    justify-content: flex-end;
+    align-content: flex-end;
+}
+
 .texticon {
     margin: 0px 8px;
 }

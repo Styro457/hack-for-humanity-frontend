@@ -10,7 +10,7 @@ const token = computed(() => route.query.token);
 
 const handleConfirmation = async () => {
   try {
-    const response = await $fetch(`http://ui.styro.dev/emails/activate/${uidb64.value}/${token.value}`, {
+    const response = await $fetch(`https://ui.styro.dev/emails/activate/${uidb64.value}/${token.value}`, {
       method: "GET",
     });
     console.log(response);

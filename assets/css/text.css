@@ -1,6 +1,6 @@
 .text-link {
     text-decoration: underline;
-    color: var(--p-card-color);
+    color: var(--primary);
     cursor: pointer;
 }
 
@@ -15,7 +15,7 @@ h1 {
     color: var(--primary);
 }
 
-h2 {
+h2, .title2 {
     font-size: 48px;
     font-family: SchibstedGrotesk;
     line-height: 1.2;
@@ -82,6 +82,10 @@ p, .text {
 
 .accent {
     color: var(--accent);
+}
+
+.white {
+    color: var(--background);
 }
 
 .tleft {

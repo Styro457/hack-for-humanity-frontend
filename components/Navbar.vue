@@ -47,11 +47,13 @@ const guest_items = [
     label: 'Log In',
     severity: 'secondary',
     button: true,
+    color: 'text',
     command: () => navigateTo("/login")
   },
   {
     label: "Sign Up",
     button: true,
+    color: 'accent',
     command: () => navigateTo("/signup")
   }
 ];
@@ -101,15 +103,15 @@ await handleSession();
   <header class="card">
     <Menubar :model="items" class="navbar">
       <template #start>
-        <NuxtLink to="/"><h4>Logo</h4></NuxtLink>
+        <NuxtLink to="/" class="logo"><img src="../assets/images/uninsight-main-logo.svg" alt="Uninsight" class="logo title2"></NuxtLink>
       </template>
       <template #end>
         <Menubar :model="menu_items" class="sub-menu">
           <template #item="{ item, props, hasSubmenu, root }">
-            <Button v-if="item.button" :label="item.label" :severity="item.severity" v-bind="props.action"></Button>
-            <a v-else v-ripple class="flex items-center" v-bind="props.action">
+            <Button v-if="item.button" :label="item.label" :severity="item.severity" v-bind="props.action" :class="item.color " />
+            <a v-else v-ripple class="flex" v-bind="props.action">
               <span :style="{'color': item.color}">{{ item.label }}</span>
-              <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+<!--              <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>-->
               <i v-if="hasSubmenu" :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"></i>
             </a>
           </template>
@@ -140,6 +142,8 @@ await handleSession();
   z-index: 1000; /* Ensure it stays above other elements */
   display: flex; /* Flexbox for alignment */
   height: 78px;
+
+  background-color: var(--background);
 }
 
 .p-button {
@@ -152,6 +156,29 @@ await handleSession();
   height: 100%;
   border: none;
   padding: 0;
+  background-color: var(--background);
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  background: none;
+}
+
+.logo:hover {
+  background: none;
+}
+
+/* Optional: Change hover color when item is selected */
+.p-menubar-item:hover, .p-menubar-item-content:hover {
+  background-color: red !important; /* Your desired focus/active color */
+  color: #333333; /* Adjust text color */
+}
+
+.navbar {
+  display: flex;
+  justify-content: center; /* Centers the main menu */
+  align-items: center; /* Aligns items vertically */
 }
 
 </style>

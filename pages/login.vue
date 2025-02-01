@@ -13,7 +13,8 @@ const messages = {
   "reset": "Password reset successful. Log in with your new password.",
   "reset_request": "Check your email for a password reset link.",
   "confirm": "Account activated. Log in to continue.",
-  "verified": "Account created successfully. Check your email for an activation link before continuing.",
+  "signup": "Account created successfully. Check your email for an activation link before continuing.",
+  "verified": "Account activated. Log in to continue.",
   "verify_failed": "Account activation failed. Please try again.",
 }
 
@@ -89,7 +90,7 @@ const handleLogin = async () => {
   <Message v-if="message" size="small" variant="simple" class="message">{{ message }}</Message>
   <Card class="auth panel">
     <template #header>
-      Log in to Site
+      <h3 class="bold-700">Log in to Site</h3>
     </template>
     <template #content>
       <Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>

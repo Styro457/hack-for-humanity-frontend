@@ -104,7 +104,7 @@ const handleResetRequest = async () => {
 
 <template>
   <Card class="auth panel" v-if="token">
-    <template #header>Set your new password</template>
+    <template #header><h3 class="bold-700">Set your new password</h3></template>
     <template #content>
       <Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
       <Form v-slot="$form" :resolver="reset_resolver" :initialValues="reset_initialValues" @submit="onResetFormSubmit" class="gap-4">
@@ -129,7 +129,10 @@ const handleResetRequest = async () => {
     </template>
   </Card>
   <Card class="auth panel" v-else>
-    <template #header>Reset your password</template>
+    <template #header>
+      <h3 class="bold-700">Reset your password</h3>
+      <p class="box subtext gray">Enter your email address below, and we’ll send you instructions to reset your password. If you don’t receive an email within a few minutes, please check your spam folder.</p>
+    </template>
     <template #content>
       <Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
       <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="gap-4">
@@ -149,5 +152,7 @@ const handleResetRequest = async () => {
 </template>
 
 <style scoped>
-
+.box {
+  margin-bottom: -40px;
+}
 </style>

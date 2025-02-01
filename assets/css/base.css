@@ -39,12 +39,21 @@
 
 :root {
     --primary: #183059;
+    --primary-hover: #10273E;
+    --primary-focus: rgb(7, 30, 34);
     --secondary: #57B8FF;
     --secondary-hover: #68BEFC;
     --accent: #E8FCC2;
+    --accent-hover: #D1F6A5;
+    --accent-focus: #C4F389;
     --background: #F6F4F3;
+    --background-hover: #ECEAE9;
+    --background-focus: #D9D6D4;
     --h-black: #071E22;
     --h-gray: #071E22;
+
+    --font-size: 16px;
+    --subtitle-size: 24px;
 }
 
 *,
@@ -80,4 +89,5 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }

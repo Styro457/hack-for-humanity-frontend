@@ -1,5 +1,27 @@
 <script setup lang="ts">
+import {ref, watchEffect} from "vue";
 
+const reviews = ref([]);
+const loading = ref(true);
+
+async function getReviews() {
+  try {
+    const response: Response = await $fetch(getAPI() + '/reviews/latest_reviews/', {
+      method: "GET",
+      credentials: "include",
+    });
+    return response.data;
+  } catch (err) {
+    console.error("Search failed:", err);
+    return [];
+  }
+}
+
+watchEffect(async () => {
+  loading.value = true;
+  reviews.value = await getReviews();
+  loading.value = false;
+});
 </script>
 
 <template>
@@ -52,11 +74,18 @@
     <h2>Recent Course Reviews</h2>
     <p class="box desc">See what students are saying! Check out the latest reviews to get real,
       up-to-date insights on courses from universities around the world. </p>
-    <Button label="Browse Courses & Professors" @click="navigateTo('/search')"/>
+    <div v-if="loading">
+      <p>Loading reviews...</p>
+    </div>
+    <div v-else-if="reviews.length > 0" class="courses">
+      <Reviews :reviews="reviews" />
+    </div>
+    <p v-else>Weird! There are no new reviews yet.</p>
+    <Button label="Browse Courses & Professors" class="box" @click="navigateTo('/search')"/>
   </div>
   <div class="info container center full">
       <div class="columns site-stats">
-        <div class="column half">
+        <div class="column half cleft">
           <h2 class="accent tleft bold-600">
             Ready to start reviewing<br>
             your own courses?
@@ -66,10 +95,12 @@
             and help other students make smarter choices. Join our community today
             and start leaving reviews that make a difference.
           </p>
-          <Button label="Sign up to write your first review " class="tleft box"/>
+          <div>
+            <Button label="Sign up to write your first review " class="tleft inv-button" @click="navigateTo(isConnected() ? '/review' : '/signup')" />
+          </div>
         </div>
         <div class="column half center">
-          <h2 class="white">STARS :)</h2>
+          <img src="../assets/images/stars-uninsight.svg" width="467px" height="auto"  alt="⭐⭐⭐⭐⭐"/>
         </div>
     </div>
   </div>
@@ -79,34 +110,49 @@
       platform works, how to get started, and why it's the best place for university course reviews. </p>
     <Accordion>
       <AccordionPanel value="0">
-        <AccordionHeader>Header I</AccordionHeader>
+        <AccordionHeader>What is this platform all about? </AccordionHeader>
         <AccordionContent>
           <p class="m-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            This platform helps students review university courses, offering insights to help you choose the right ones.
           </p>
         </AccordionContent>
       </AccordionPanel>
       <AccordionPanel value="1">
-        <AccordionHeader>Header II</AccordionHeader>
+        <AccordionHeader>Is it free to use? </AccordionHeader>
         <AccordionContent>
           <p class="m-0">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-            ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+            Yes, the platform is completely free! You can browse and submit reviews without any cost.
           </p>
         </AccordionContent>
       </AccordionPanel>
       <AccordionPanel value="2">
-        <AccordionHeader>Header III</AccordionHeader>
+        <AccordionHeader>How do you ensure the reviews are honest and reliable? </AccordionHeader>
         <AccordionContent>
           <p class="m-0">
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
-            qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+            We use AI and manual moderation to ensure reviews are genuine and helpful, providing reliable feedback for students.
+          </p>
+        </AccordionContent>
+      </AccordionPanel>
+      <AccordionPanel value="3">
+        <AccordionHeader>Do I need an account to leave a review?  </AccordionHeader>
+        <AccordionContent>
+          <p class="m-0">
+            Yes, you’ll need an account to submit a review. This helps us manage and moderate content effectively and prevent spam.
+          </p>
+        </AccordionContent>
+      </AccordionPanel>
+      <AccordionPanel value="4">
+        <AccordionHeader>Are the reviews anonymous?  </AccordionHeader>
+        <AccordionContent>
+          <p class="m-0">
+            Reviews are not publicly linked to your account, ensuring your privacy while still keeping the content trustworthy.
           </p>
         </AccordionContent>
       </AccordionPanel>
     </Accordion>
   </div>
+
+  <Footer />
 
 
 </template>
@@ -139,7 +185,7 @@
 }
 
 .long-bg {
-  height: 200vw;
+  height: 150vw;
 }
 
 .site-stats {
@@ -147,4 +193,29 @@
   gap: 6vw;
 }
 
+.cleft {
+  justify-content: flex-start;
+}
+
+.inv-button {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--primary);
+}
+
+.inv-button:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--primary);
+}
+
+.inv-button:focus {
+  background: var(--accent-focus);
+  border-color: var(--accent-focus);
+  color: var(--primary);
+}
 </style>
