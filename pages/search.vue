@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, nextTick, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import CourseCard from "~/components/CourseCard.vue";
 
@@ -19,7 +19,7 @@ async function search(query: string) {
       credentials: "include",
     });
 
-    if(response.status === "success") {
+    if (response.status === "success") {
       return response.data;
     } else {
       await router.push("/");
@@ -33,28 +33,97 @@ async function search(query: string) {
 }
 
 watchEffect(async () => {
-  loading.value = true; // Show loading before fetching data
+  loading.value = true;
   searchResults.value = await search(searchTerm.value);
-  loading.value = false; // Hide loading after data loads
+  loading.value = false;
+
+  if (searchTerm.value) {
+    await nextTick();
+    scrollToResults();
+  }
+});
+
+const scrollToResults = () => {
+  if (process.client) {
+    const resultsSection = document.querySelector(".results");
+    if (resultsSection) {
+      const offset = 100;
+      slowScrollTo(resultsSection.offsetTop - offset, 1000);
+    }
+  }
+};
+
+const slowScrollTo = (targetPosition, duration) => {
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  let startTime = null;
+
+  const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+  const animation = (currentTime) => {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const easedProgress = easeInOutQuad(progress);
+
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  };
+
+  requestAnimationFrame(animation);
+};
+
+onMounted(() => {
+  if (searchTerm.value) {
+    scrollToResults();
+  }
 });
 </script>
 
 <template>
-  <h1>Search of {{ searchOption }}: {{ searchTerm }}</h1>
-
-  <div v-if="loading">
-    <p>Loading courses...</p>
+  <div class="bg-effect" />
+  <div class="title first-elem center">
+    <h1 class="bold-800">Read Reviews Of<br><span class="bold-800 secondary">6400+</span> Courses</h1>
+    <p class="box">
+      Explore courses and professors from universities worldwide. Use filters to find<br>
+      exactly what youe looking for—whether it's the perfect course to match your<br>
+      interests or insights into professors' teaching styles.
+    </p>
   </div>
+  <CourseSearchBar :default-search-type-index="searchOption" />
 
-  <div v-else-if="searchResults.length > 0" class="courses">
-    <CourseCard v-for="course in searchResults" :key="course.id" :course="course" />
+  <div class="results">
+    <h3 class="tleft">Find The Right Course</h3>
+    <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="searchOption" class="box" />
+
+    <!--    <h1>Search of {{ searchOption }}: {{ searchTerm }}</h1>-->
+
+    <p v-if="loading" class="tcenter gray">Loading courses...</p>
+    <div v-else-if="searchResults.length > 0" class="courses">
+      <p class="tcenter gray">{{searchResults.length}} Results</p>
+      <CourseCard v-for="course in searchResults" :key="course.id" :course="course" />
+    </div>
+    <p v-else class="tcenter gray">0 Results</p>
+
   </div>
-
-  <p v-else>No results found.</p>
 </template>
 
 <style scoped>
 .courses {
   width: 50vw;
 }
+
+.title {
+  margin-top: 300px;
+}
+
+.results {
+  margin-top: 400px;
+  min-height:  100vh;
+  width: 90vw;
+}
+
 </style>
