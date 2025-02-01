@@ -18,6 +18,7 @@ const log_out = () => {
   } catch (e) {
     console.log(e);
   }
+  setConnected(false);
   session.value = null;
   usernameCookie.value = null;
   sessionCookie.value = null;
