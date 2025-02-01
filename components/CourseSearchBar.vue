@@ -61,7 +61,6 @@ const search = (event) => {
 
         // Convert Map to Array and force reactivity update
         filteredCourses.value = [...universityGroups.values()];
-        console.log(filteredCourses.value);
       } else {
         filteredCourses.value = [];
       }
