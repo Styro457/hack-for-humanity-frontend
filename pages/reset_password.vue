@@ -51,7 +51,7 @@ const handleReset = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await $fetch(getAPI() + '/users/reset_password', {
+    const response = await $fetch(getAPI() + '/users/reset_password/', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
