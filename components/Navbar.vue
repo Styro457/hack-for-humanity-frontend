@@ -76,7 +76,7 @@ const user_items = [
       {
         label: "Log Out",
         color: 'red',
-        command: log_out
+        command: () => log_out()
       }
     ]
   }
