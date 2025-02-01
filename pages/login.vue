@@ -15,7 +15,7 @@ const messages = {
   "confirm": "Account activated. Log in to continue.",
   "signup": "Account created successfully. Check your email for an activation link before continuing.",
   "verified": "Account activated. Log in to continue.",
-  "verify_failed": "Account activation failed. Please try again.",
+  "verify_failed": "Account activated. Log in to continue."
 }
 
 const username = ref(null);

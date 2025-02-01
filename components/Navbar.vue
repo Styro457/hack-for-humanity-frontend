@@ -60,7 +60,7 @@ const user_items = [
     label: 'Write a review',
     color: 'accent',
     button: true,
-    command: () => navigateTo("/review")
+    command: () => navigateTo("/search")
   },
   {
     label: session,
