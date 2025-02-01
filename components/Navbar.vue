@@ -82,7 +82,6 @@ const user_items = [
   }
 ];
 
-let tries = ref(0);
 const connected = ref(false);
 
 async function handleSession() {
@@ -106,14 +105,6 @@ async function handleSession() {
 function setUpGuest() {
   connected.value = false;
   menu_items.value = guest_items;
-  if(tries.value == 0) {
-    tries.value += 1;
-    setTimeout(() => {
-      try {
-        handleSession();
-      } catch(ignore) {}
-    }, 3000);
-  }
 }
 
 function setUpUser() {
@@ -132,11 +123,11 @@ onMounted(() => {
 });
 watchEffect(() => {
   if (isConnected()) {
-    if(!connected.value) {
+    if(!connected.value || !hasCheckedSession.value) {
       setUpUser();
     }
   } else {
-    if(connected.value) {
+    if(connected.value || !hasCheckedSession.value) {
       setUpGuest();
     }
   }
