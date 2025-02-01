@@ -86,21 +86,29 @@ async function handleSession() {
       method: 'GET',
       credentials: 'include',
     });
-
-    session.value = usernameCookie.value;
-    menu_items.value = user_items;
-    setConnected(true);
-  } catch (err) {
-    menu_items.value = guest_items;
-    setConnected(false);
-    if(tries.value == 0) {
-      tries.value += 1;
-      setTimeout(() => {
-        try {
-          handleSession();
-        } catch(ignore) {}
-      }, 3000);
+    if(response.message === "Valid") {
+      session.value = usernameCookie.value;
+      menu_items.value = user_items;
+      setConnected(true);
     }
+    else {
+      setUpGuest();
+    }
+  } catch (err) {
+    setUpGuest();
+  }
+}
+
+function setUpGuest() {
+  menu_items.value = guest_items;
+  setConnected(false);
+  if(tries.value == 0) {
+    tries.value += 1;
+    setTimeout(() => {
+      try {
+        handleSession();
+      } catch(ignore) {}
+    }, 3000);
   }
 }
 
