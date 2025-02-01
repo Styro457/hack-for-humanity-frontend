@@ -74,6 +74,7 @@ watchEffect(async () => {
     <h2>Recent Course Reviews</h2>
     <p class="box desc">See what students are saying! Check out the latest reviews to get real,
       up-to-date insights on courses from universities around the world. </p>
+    </div>
     <div v-if="loading">
       <p>Loading reviews...</p>
     </div>
@@ -82,7 +83,6 @@ watchEffect(async () => {
     </div>
     <p v-else>Weird! There are no new reviews yet.</p>
     <Button label="Browse Courses & Professors" class="box" @click="navigateTo('/search')"/>
-  </div>
   <div class="info container center full">
       <div class="columns site-stats">
         <div class="column half cleft">
@@ -185,7 +185,7 @@ watchEffect(async () => {
 }
 
 .long-bg {
-  height: 150vw;
+  height: 190vw;
 }
 
 .site-stats {
