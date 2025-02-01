@@ -30,7 +30,7 @@ watchEffect(async () => {
 
 function getDepartments() {
   let departments_list = "";
-  for(let department in course.departments) {
+  for(let department in course.value.departments || []) {
     departments_list = departments_list + ", " + department;
   }
   if(departments_list===" ")

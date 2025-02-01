@@ -63,6 +63,18 @@ function getStatDescription(rating:number) {
 const reviews = ref([]);
 const loading = ref(true);
 const professor = ref({"name":"Unknown", "rating":"0"});
+const departments = ref(getDepartments());
+
+function getDepartments() {
+  let departments_list = "";
+  for(let department in course.value.departments || []) {
+    departments_list = departments_list + ", " + department;
+  }
+  if(departments_list===" ")
+    return null;
+  else
+    return departments_list.slice(2);
+}
 
 
 watchEffect(async () => {
@@ -89,7 +101,7 @@ watchEffect(async () => {
   <div class="course-info">
     <div>
       <h2 class="bold-700 box title">{{course.course_name}}</h2>
-<!--      <div class="columns box">
+      <div class="columns box" v-if="departments">
         <div class="column first">
           <div class="columns">
             <p class="texticon"><i class="pi pi-search"></i></p>
@@ -103,8 +115,8 @@ watchEffect(async () => {
               Information Technology </p>
           </div>
         </div>
-      </div>-->
-      <div class="column center">
+      </div>
+      <div class="column center" v-else>
         <p class=""><PhosphorIconMapPin /> {{ course.university_name}}</p>
       </div>
       <div class="columns">
