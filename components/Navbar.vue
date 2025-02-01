@@ -83,6 +83,7 @@ const user_items = [
 ];
 
 let tries = ref(0);
+const connected = ref(false);
 
 async function handleSession() {
   try {
@@ -91,21 +92,20 @@ async function handleSession() {
       credentials: 'include',
     });
     if(response.message === "Valid") {
-      session.value = usernameCookie.value;
-      menu_items.value = user_items;
       setConnected(true);
     }
     else {
-      setUpGuest();
+      setConnected(false);
     }
   } catch (err) {
+    setConnected(false);
     setUpGuest();
   }
 }
 
 function setUpGuest() {
+  connected.value = false;
   menu_items.value = guest_items;
-  setConnected(false);
   if(tries.value == 0) {
     tries.value += 1;
     setTimeout(() => {
@@ -116,12 +116,29 @@ function setUpGuest() {
   }
 }
 
+function setUpUser() {
+  connected.value = true;
+  session.value = usernameCookie.value;
+  menu_items.value = user_items;
+}
+
 const hasCheckedSession = ref(false);
 
 onMounted(() => {
   if (!hasCheckedSession.value) {
     handleSession();
     hasCheckedSession.value = true;
+  }
+});
+watchEffect(() => {
+  if (isConnected()) {
+    if(!connected.value) {
+      setUpUser();
+    }
+  } else {
+    if(connected.value) {
+      setUpGuest();
+    }
   }
 });
 
