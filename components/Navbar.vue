@@ -39,7 +39,9 @@ const items = ref([
   }
 ]);
 
-const guest_items = ref([
+const menu_items = ref([]);
+
+const guest_items = [
   {
     label: 'Log In',
     severity: 'secondary',
@@ -53,9 +55,9 @@ const guest_items = ref([
     color: 'accent',
     command: () => navigateTo("/signup")
   }
-]);
+];
 
-const user_items = ref([
+const user_items = [
   {
     label: 'Write a review',
     color: 'accent',
@@ -76,16 +78,15 @@ const user_items = ref([
       }
     ]
   }
-]);
-
-const connected = ref(false);
+];
 
 function setUpGuest() {
-  connected.value = false;
+  menu_items.value = guest_items;
 }
 
 function setUpUser() {
-  connected.value = true;
+  session.value = usernameCookie.value;
+  menu_items.value = user_items;
 }
 
 async function handleSession() {
@@ -131,25 +132,7 @@ watch(isConnected, (newVal) => {
         </NuxtLink>
       </template>
       <template #end>
-        <Menubar :model="guest_items" class="sub-menu" v-if="connected">
-          <template #item="{ item, props, hasSubmenu, root }">
-            <Button
-                v-if="item.button"
-                :label="item.label"
-                :severity="item.severity"
-                v-bind="props.action"
-                :class="item.color"
-            />
-            <a v-else v-ripple class="flex" v-bind="props.action">
-              <span :style="{ color: item.color }">{{ item.label }}</span>
-              <i
-                  v-if="hasSubmenu"
-                  :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"
-              ></i>
-            </a>
-          </template>
-        </Menubar>
-        <Menubar :model="guest_items" class="sub-menu" v-else>
+        <Menubar :model="menu_items" class="sub-menu">
           <template #item="{ item, props, hasSubmenu, root }">
             <Button
                 v-if="item.button"
