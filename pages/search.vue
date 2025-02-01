@@ -103,11 +103,11 @@ onMounted(() => {
       interests or insights into professors' teaching styles.
     </p>
   </div>
-  <CourseSearchBar :default-search-type-index="searchOption" />
+  <CourseSearchBar :default-search-type-index="parseInt(searchOption)" />
 
   <div class="results">
     <h3 class="tleft">Find The Right Course</h3>
-    <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="searchOption" class="box" />
+    <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="parseInt(searchOption)" class="box" />
 
     <p v-if="loading" class="tcenter gray">Loading courses...</p>
     <div v-else-if="searchResults.length > 0" class="courses center">
