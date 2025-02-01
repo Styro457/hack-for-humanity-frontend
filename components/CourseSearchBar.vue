@@ -187,15 +187,15 @@ watch(() => props.defaultSearchTypeIndex, (newSearchTypeIndex) => {
 }
 
 .iconbutton {
-  background: none;
-  border: none;
-  color: var(--primary);
+  background: none !important;
+  border: none !important;
+  color: var(--primary) !important;
 }
 
 .iconbutton:hover {
-  background: none;
-  border: none;
-  color: var(--primary);
+  background: none !important;
+  border: none !important;
+  color: var(--primary) !important;
 }
 
 .search-btn {
