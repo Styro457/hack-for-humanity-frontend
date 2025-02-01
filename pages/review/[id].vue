@@ -57,6 +57,7 @@ const submitReview = async () => {
 
 const course = ref(loadCourse(id.toString()));
 const avg_rating = ref(1);
+const error = ref(null);
 //const uni = ref(loadUni(course.university));
 
 async function loadCourse(id:String) {
@@ -75,7 +76,7 @@ async function loadCourse(id:String) {
     }
   } catch(err) {
     console.log(err)
-    await router.push('/');
+    error.value = "There was an error while trying to submit the review. Make sure you have not already reviews this course.";
   }
 };
 </script>
@@ -148,6 +149,7 @@ r">
         <Message v-if="$form.body?.invalid" severity="error" size="small">{{ $form.body.error?.message }}</Message>
       </div>
 
+      <Message v-if="error" severity="error" size="small">{{ error }}</Message>
       <Button type="submit" label="Submit Review" class="review-submit"/>
     </div>
   </Form>
