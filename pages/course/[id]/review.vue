@@ -53,6 +53,7 @@ const submitReview = async () => {
 </script>
 
 <template>
+  <RequireLogin />
   <Card class="review-panel">
     <template #header>Leave a Review</template>
     <template #content>

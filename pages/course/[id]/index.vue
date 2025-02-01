@@ -19,6 +19,7 @@ async function loadCourse(id:String) {
     });
     if (response.status === "success") {
       course.value = response.data;
+      console.log(course.value);
       avg_rating.value = course.value.avg_course_rating;
     } else {
       await router.push('/');
@@ -94,21 +95,22 @@ async function getReviews(course_id: string) {
 
 watchEffect(async () => {
   if (!course.value || !course.value.id) return;
-  loading.value = true; // Show loading before fetching data
+  loading.value = true;
   reviews.value = await getReviews(course.value.id);
-  loading.value = false; // Hide loading after data loads
+  loading.value = false;
 });
 </script>
 
 <template>
-  <Button @click="$router.back()" class="first-elem">Back</Button>
-  <div class="container">
+  <div class="bg-effect" />
+  <Back class=""/>
+  <div class="container first-elem">
     <span class="subtitle content"> {{course.course_code}} </span>
   </div>
   <div class="course-info">
     <div>
-      <h2 class="bold-700">{{course.course_name}}</h2>
-      <div class="columns">
+      <h2 class="bold-700 box title">{{course.course_name}}</h2>
+<!--      <div class="columns box">
         <div class="column first">
           <div class="columns">
             <p class="texticon"><i class="pi pi-search"></i></p>
@@ -122,18 +124,21 @@ watchEffect(async () => {
               Information Technology </p>
           </div>
         </div>
+      </div>-->
+      <div class="column center">
+        <p class=""><PhosphorIconMapPin /> {{ course.university_name}}</p>
       </div>
       <div class="columns">
         <div class="column info left">
-          <div class="container column center">
+          <div class="container column center main_stats">
             <p class="">Overall Rating</p>
             <h2>{{course.avg_course_rating}}</h2>
-            <Stars :rating="avg_rating" size="small" />
-            <p class="subtext gray">( 4 reviews )</p>
+            <Stars :rating="parseInt(avg_rating)" size="small" />
+            <p class="subtext gray">( {{reviews.length}} reviews )</p>
           </div>
-          <div class="container column center">
+          <div class="container column center main_stats">
             <p class="subtext gray">Professor</p>
-            <h4 class="bold-600">Dr. Eleanor Hartman</h4>
+            <h4 class="bold-600" v-for="prof_name in course.professors_names">{{prof_name}}</h4>
           </div>
         </div>
         <div class="column info right">
@@ -178,29 +183,67 @@ watchEffect(async () => {
     </div>
   </div>
 
-  
-  <Button label="Write a review" @click="$router.push(`/course/${id}/review`)"/>
+  <div class="bottom">
+    <h2>Reviews & Comments</h2>
+    <p class="box desc">Dive into detailed reviews from students who've taken this course. Discover their experiences, insights,
+      and advice to help you decide if this course s right for you, </p>
 
-  <div v-if="loading">
-    <p>Loading reviews...</p>
+
+    <div class="reviews-header">
+      <span class="bold-600 text">{{ reviews.length }} Reviews</span>
+      <Button label="Write a review" @click="$router.push(`/course/${id}/review`)"/>
+    </div>
+    <div v-if="loading">
+      <p>Loading reviews...</p>
+    </div>
+
+    <div v-else-if="reviews.length > 0" class="courses">
+      <Reviews :reviews="reviews" />
+    </div>
+
+    <p v-else>There are no reviews yet for this course. Be the first one to add one!.</p>
   </div>
-
-  <div v-else-if="reviews.length > 0" class="courses">
-    <Reviews :reviews="reviews" />
-  </div>
-
-  <p v-else>There are no reviews yet for this course. Be the first one to add one!.</p>
 
 </template>
 
 <style scoped>
+.back {
+  position: absolute;
+  left:10%;
+  top:100px;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.first-elem {
+  margin-top: 200px;
+}
+
+.title {
+  margin-bottom: 48px;
+}
+
 .course-info {
   width: 50vw;
   max-width: 700px;
 }
 
+.main_stats {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
 .first {
   width: 60%;
+}
+
+.info {
+  margin-top: 24px;
 }
 
 .info.left {
@@ -213,5 +256,9 @@ watchEffect(async () => {
 
 .reviews {
 
+}
+
+.bottom {
+  margin-top: 200px;
 }
 </style>

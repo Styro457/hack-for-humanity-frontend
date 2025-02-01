@@ -44,7 +44,8 @@ p, .text {
 }
 
 .box {
-    margin: 24px 0;
+    margin: 24px auto;
+    max-width: 780px;
 }
 
 .subtext {

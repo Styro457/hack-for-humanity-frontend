@@ -14,44 +14,82 @@ const props = defineProps({
 });
 
 const selectedCourse = ref(props.defaultSearchTerm || "");
-const filteredCourses = ref();
+const filteredCourses = ref([]);
 
-const groupedCourses = ref([
-  {
-    label: 'University of Oulu',
-    code: 'OU',
-    items: [
-      { label: 'CS-1001: Introduction to Computer Science', value: 'Computer Science' },
-      { label: 'MA-2045: Applied Mathematics in Engineering', value: 'Applied Mathematics' },
-      { label: 'ES-3012: Principles of Environmental Science', value: 'Environmental Science' },
-      { label: 'AI-1500: Fundamentals of Artificial Intelligence', value: 'AI' },
-      { label: 'DM-1203: Digital Marketing and Analytics', value: 'Marketing' },
-      { label: 'BT-2201: Molecular Biology and Biotechnology', value: 'Biotechnology' },
-      { label: 'GP-3305: Geophysics and Remote Sensing', value: 'Geophysics' },
-      { label: 'PS-4102: Philosophy of Science and Technology', value: 'Philosophy' },
-      { label: 'BM-5004: International Business Management', value: 'Business' },
-      { label: 'FL-6001: Finnish Language and Culture for International Students', value: 'Finnish Studies' }
-    ]
-  }
-]);
+let debounceTimer: number | null = null;
 
 const search = (event) => {
-  let query = event.query;
-  let newFilteredCourses = [];
-
-  for (let university of groupedCourses.value) {
-    if (university.label.toLowerCase().includes(query.toLowerCase())) {
-      newFilteredCourses.push({ ...university, items: university.items });
-    } else {
-      let filteredItems = FilterService.filter(university.items, ['label'], query, FilterMatchMode.CONTAINS);
-      if (filteredItems && filteredItems.length) {
-        newFilteredCourses.push({ ...university, items: filteredItems });
-      }
-    }
+  const query = event.query.trim();
+  if (!query) {
+    filteredCourses.value = [];
+    return;
   }
 
-  filteredCourses.value = newFilteredCourses;
+  if (debounceTimer) {
+    clearTimeout(debounceTimer);
+  }
+
+  debounceTimer = setTimeout(async () => {
+    try {
+      const url = getAPI() + "/courses/search/search_query/" + "?search_query=" + encodeURIComponent(query);
+      const response = await $fetch(url, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (response.status === "success" && Array.isArray(response.data)) {
+        // Group courses by university
+        const universityGroups = new Map();
+
+        for (const course of response.data) {
+          const universityCode = course.university.toString();
+
+          if (!universityGroups.has(universityCode)) {
+
+            universityGroups.set(universityCode, {
+              'code': universityCode.toString(),
+              'label': await getUniversityName(course.university),
+              'items': []
+            });
+          }
+
+          universityGroups.get(universityCode).items.push({
+            'label': course.course_code + ': ' + course.course_name,
+            'value': course.id.toString()
+          });
+        }
+
+        // Convert Map to Array and force reactivity update
+        filteredCourses.value = [...universityGroups.values()];
+        console.log(filteredCourses.value);
+      } else {
+        filteredCourses.value = [];
+      }
+    } catch (err) {
+      console.error("Autocomplete failed:", err);
+      filteredCourses.value = [];
+    }
+  }, 1000);
 };
+
+async function getUniversityName(id: number) {
+  try {
+    const response = await $fetch(getAPI() + '/uni_prof/uni_info_by_id/' + id, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.status === "success" && response.university) {
+      return response.university.uni_name;
+    } else {
+      console.error("Error:", response);
+      return "Unknown University";
+    }
+  } catch (err) {
+    console.error( err);
+    return "Unknown University";
+  }
+}
 
 const search_types = [
   { name: 'Course', id: 0 },
@@ -61,13 +99,19 @@ const search_types = [
 const selectedSearch = ref(search_types[props.defaultSearchTypeIndex] || search_types[0]);
 
 const onFormSubmit = ({ valid }) => {
-  router.push({
-    path: '/search',
-    query: {
-      search: selectedCourse.value,
-      option: selectedSearch.value.id
-    }
-  });
+  if(typeof selectedCourse.value === 'string') {
+    router.push({
+      path: '/search',
+      query: {
+        search: selectedCourse.value || " ",
+        option: selectedSearch.value.id
+      }
+    });
+  } else {
+    router.push({
+      path: '/course/' + selectedCourse.value.value
+    });
+  }
 };
 
 const placeholder = computed(() => {

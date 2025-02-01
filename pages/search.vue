@@ -6,8 +6,8 @@ import CourseCard from "~/components/CourseCard.vue";
 const route = useRoute();
 const router = useRouter();
 
-const searchTerm = ref(route.query.search ?? "");
-const searchOption = ref(route.query.option);
+const searchTerm = ref(route.query.search || null);
+const searchOption = ref(route.query.option || "0");
 const searchResults = ref([]);
 const loading = ref(true);
 
@@ -29,14 +29,16 @@ async function search(query: string) {
     console.error("Search failed:", err);
     await router.push("/");
     return [];
-  }
+  }scrollToResults
 }
 
 const fetchSearchResults = async () => {
   loading.value = true;
-  searchResults.value = await search(searchTerm.value);
+  searchResults.value = await search(searchTerm.value.trim());
   loading.value = false;
-  scrollToResults();
+  if(searchTerm.value !== null)
+    scrollToResults();
+  searchTerm.value = searchTerm.value.trim();
 };
 
 const scrollToResults = () => {

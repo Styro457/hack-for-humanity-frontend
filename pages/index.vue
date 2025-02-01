@@ -7,7 +7,7 @@
   <div class="title first-elem center">
     <h1 class="bold-800">Unbiased Reviews of<br>University Courses,<br><span class="bold-800 secondary">All in One Place.</span></h1>
     <p class="box">
-      Easily explore and compare university courses. Read honest student<br>
+      Easily explore and compare university courses. Read honest student
       reviews and make informed decisions to find the right course for you.
     </p>
   </div>
@@ -50,7 +50,7 @@
   </div>
   <div class="info center">
     <h2>Recent Course Reviews</h2>
-    <p class="box desc">See what students are saying! Check out the latest reviews to get real,<br>
+    <p class="box desc">See what students are saying! Check out the latest reviews to get real,
       up-to-date insights on courses from universities around the world. </p>
     <Button label="Browse Courses & Professors" @click="navigateTo('/search')"/>
   </div>
@@ -75,7 +75,7 @@
   </div>
   <div class="info center">
     <h2>FAQ</h2>
-    <p class="box desc">Got questions? We've got answers! Explore our frequently asked questions to learn how our<br>
+    <p class="box desc">Got questions? We've got answers! Explore our frequently asked questions to learn how our
       platform works, how to get started, and why it's the best place for university course reviews. </p>
     <Accordion>
       <AccordionPanel value="0">
@@ -124,11 +124,6 @@
   background: var(--primary);
   color: var(--background);
   padding: 6rem;
-}
-
-.half {
-  width: 50%;
-  text-align: left;
 }
 
 .white {

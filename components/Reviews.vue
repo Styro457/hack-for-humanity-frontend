@@ -15,7 +15,7 @@ const props = defineProps({
         class="container grid-item review center"
         v-for="review in reviews"
     >
-      <Stars :rating="review.overall_rating" size="big"/>
+      <Stars :rating="parseInt(review.overall_rating)" size="big"/>
       <h4 class="bold-600 box">{{review.title}}</h4>
       <p>"{{ review.body }}"</p>
       <div class="columns stats center">

@@ -49,7 +49,6 @@ const onFormSubmit = ({ valid }) => {
   }
 };
 
-
 const handleLogin = async () => {
   error.value = null;
   loading.value = true;
@@ -58,27 +57,30 @@ const handleLogin = async () => {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: { 'username': username.value, 'password': password.value}
+      body: { 'username': username.value, 'password': password.value }
     });
     loading.value = false;
-    // Redirect after successful login
-    if(username.value) {
+
+    if (username.value) {
       usernameCookie.value = username.value.toLowerCase();
     }
-      await router.push({
-        path: '/',
-        query: {
-          response: response.message,
-        },
-      });
-  } catch(err) {
+
+    const redirectTo = route.query.redirect || '/';
+
+    await router.push({
+      path: redirectTo,
+      query: {
+        response: response.message,
+      },
+    });
+  } catch (err) {
     loading.value = false;
     if (err.response && err.response.status === 404) {
       error.value = 'Incorrect username or password. Make sure your email is activated.';
     } else {
-      // General error message for other errors
       error.value = 'An error occurred. Please try again.';
-    }    console.log(err)
+    }
+    console.log(err);
   }
 };
 </script>

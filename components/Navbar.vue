@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import {watchEffect} from "vue";
+import {setConnected} from "~/utils/utils";
 
 const session = ref("");
 const usernameCookie = useCookie("username");
@@ -84,9 +85,11 @@ async function handleSession() {
 
     session.value = usernameCookie.value;
     menu_items.value = user_items;
+    setConnected(true);
   } catch (err) {
     console.log(err);
     menu_items.value = guest_items;
+    setConnected(false);
   }
 }
 
@@ -136,6 +139,7 @@ await handleSession();
   width: 100%; /* Stretch across the full width */
   z-index: 1000; /* Ensure it stays above other elements */
   display: flex; /* Flexbox for alignment */
+  height: 78px;
 }
 
 .p-button {
