@@ -30,8 +30,8 @@ const widthStyle = computed(() => ({
 
 .progress-fill {
   height: 100%;
+  width: 0%;
   transition: width 0.3s ease-in-out;
   border-radius: 8px;
-  opacity: 200%;
 }
 </style>
