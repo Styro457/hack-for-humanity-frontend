@@ -69,7 +69,7 @@ const handleLogin = async () => {
     const redirectTo = route.query.redirect || '/';
     setConnected(true);
 
-    window.location.href = "https://uni.styro.dev/" //TODO: Use router
+    window.location.href = "https://uni.styro.dev" + redirectTo //TODO: Use router
   } catch (err) {
     loading.value = false;
     if (err.response && err.response.status === 404) {

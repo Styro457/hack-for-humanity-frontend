@@ -70,7 +70,7 @@ watchEffect(async () => {
       </div>
     </div>
   </div>
-  <div class="info center">
+  <div class="info center recent-rev">
     <h2>Recent Course Reviews</h2>
     <p class="box desc">See what students are saying! Check out the latest reviews to get real,
       up-to-date insights on courses from universities around the world. </p>
@@ -78,7 +78,7 @@ watchEffect(async () => {
       <p>Loading reviews...</p>
     </div>
     <div v-else-if="reviews.length > 0" class="courses">
-      <Reviews :reviews="reviews" />
+      <Reviews :reviews="reviews" class="reviews"/>
     </div>
     <p v-else>Weird! There are no new reviews yet.</p>
     <Button label="Browse Courses & Professors" class="box" @click="navigateTo('/search')"/>
@@ -96,7 +96,7 @@ watchEffect(async () => {
             and start leaving reviews that make a difference.
           </p>
           <div>
-            <Button label="Sign up to write your first review " class="tleft inv-button" @click="navigateTo(isConnected() ? '/review' : '/signup')" />
+            <Button label="Sign up to write your first review " class="tleft inv-button" @click="navigateTo(isConnected() ? '/search' : '/signup')" />
           </div>
         </div>
         <div class="column half center">
@@ -217,5 +217,15 @@ watchEffect(async () => {
   background: var(--accent-focus);
   border-color: var(--accent-focus);
   color: var(--primary);
+}
+
+.recent-rev {
+  width: 500vw;
+  padding: 0;
+}
+
+.reviews {
+  padding: 0;
+  width: 100%;
 }
 </style>

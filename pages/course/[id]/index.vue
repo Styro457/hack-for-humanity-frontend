@@ -73,7 +73,7 @@ watchEffect(async () => {
 
 <template>
   <div class="bg-effect" />
-  <Back class=""/>
+  <Back class="back"/>
   <div class="container first-elem">
     <span class="subtitle content"> {{course.course_code}} </span>
   </div>
@@ -162,11 +162,13 @@ watchEffect(async () => {
     <h2>Reviews & Comments</h2>
     <p class="box desc">Dive into detailed reviews from students who've taken this course. Discover their experiences, insights,
       and advice to help you decide if this course s right for you, </p>
-
+</div>
 
     <div class="reviews-header">
       <span class="bold-600 text">{{ reviews.length }} Review{{reviews.length == 1 ? "" : "s"}}</span>
-      <Button label="Write a review" @click="$router.push(`/course/${id}/review`)"/>
+      <Button label="Write a review" @click="$router.push({
+      'path': '/review/' + course.id
+      })"/>
     </div>
     <div v-if="loading">
       <p>Loading reviews...</p>
@@ -177,7 +179,6 @@ watchEffect(async () => {
     </div>
 
     <p v-else>There are no reviews yet for this course. Be the first one to add one!.</p>
-  </div>
 
 </template>
 
@@ -235,8 +236,9 @@ watchEffect(async () => {
   width: 70%;
 }
 
-.reviews {
-
+.reviews-header {
+  max-width: 1400px;
+  gap: 53vw;
 }
 
 .bottom {
