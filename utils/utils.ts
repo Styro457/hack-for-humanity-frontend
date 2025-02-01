@@ -53,3 +53,14 @@ export async function getReviews(course_id: string) {
         return [];
     }
 }
+
+export function getDepartments(course) {
+    let departments_list = "";
+    for(let department of course.value.departments || []) {
+        departments_list = departments_list + ", " + department;
+    }
+    if(departments_list==="")
+        return null;
+    else
+        return departments_list.slice(2);
+}
