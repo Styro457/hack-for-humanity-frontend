@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref, watchEffect} from "vue";
 import CourseCard from "~/components/CourseCard.vue";
-import {getReviews} from "~/utils/utils";
+import {getProfessorData, getReviews, getUniversityName} from "~/utils/utils";
 
 const route = useRoute()
 const id = route.params.id
@@ -62,6 +62,15 @@ function getStatDescription(rating:number) {
 
 const reviews = ref([]);
 const loading = ref(true);
+const professor = ref({"name":"Unknown", "rating":"0"});
+
+
+watchEffect(async () => {
+  if (!course.value || !course.value.id) return;
+  loading.value = true;
+  professor.value = await getProfessorData(course.value.professors[0]); //TODO: Make it work with multiple
+  loading.value = false;
+});
 
 watchEffect(async () => {
   if (!course.value || !course.value.id) return;
@@ -109,6 +118,7 @@ watchEffect(async () => {
           <div class="container column center main_stats">
             <p class="subtext gray">Professor</p>
             <h4 class="bold-600" v-for="prof_name in course.professors_names">{{prof_name}}</h4>
+            <Stars :rating="parseInt(professor.rating || '0')" size="small"/>
           </div>
         </div>
         <div class="column info right">
