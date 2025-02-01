@@ -39,7 +39,7 @@ const fetchSearchResults = async () => {
   loading.value = false;
   if(searchTerm.value !== null)
     scrollToResults();
-  searchTerm.value = searchTerm.value.trim();
+  searchTerm.value = currentValue.trim();
 };
 
 const scrollToResults = () => {
