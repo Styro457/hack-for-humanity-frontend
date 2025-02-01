@@ -61,6 +61,7 @@ const guest_items = [
 const user_items = [
   {
     label: 'Write a review',
+    color: 'accent',
     button: true
   },
   {
