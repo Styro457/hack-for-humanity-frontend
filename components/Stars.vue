@@ -5,7 +5,7 @@
         v-for="(star, index) in 5"
         :key="index"
         :weight="index < (hoverRating || rating) ? 'fill' : 'regular'"
-        :class="{ 'clickable': clickable }"
+        :class="{ 'clickable': clickable, 'dark': dark }"
         @click="clickable ? updateRating(index + 1) : null"
         @mouseover="handleHover(index + 1)"
     />
@@ -16,7 +16,8 @@
     const props = defineProps({
       rating: { type: Number, default: 0 },
       clickable: { type: Boolean, default: false },
-      size: { type: String, default: "" }
+      size: { type: String, default: "" },
+      dark: { type: Boolean, default: false },
     });
 
     const emit = defineEmits(['update:rating']);
@@ -49,8 +50,16 @@
   color: var(--secondary);
 }
 
+.dark {
+  color: var(--primary);
+}
+
 .clickable-rating:hover {
   color: var(--secondary-hover);
+}
+
+.dark:hover {
+  color: var(--primary-hover);
 }
 
 .clickable {

@@ -1,18 +1,33 @@
+<script setup lang="ts">
+import {computed} from "vue";
+
+const emit = defineEmits(['update:course']);
+
+const props = defineProps({
+  course: { type: Object, default: {} }
+});
+
+const course = computed({
+  get: () => props.course,
+  set: (value) => emit('update:course', value),
+});
+</script>
+
 <template>
   <NuxtLink :to="'/course/' + course.id">
     <div class="container course-card">
       <div class="columns">
         <div class="column first">
-          <h2 class="rating-value">5.00</h2>
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <span class="subnote">(775 reviews)</span>
+          <h2 class="rating-value bold-500">5.00</h2>
+          <Stars :rating="4" size="normal" :dark="true"/>
+          <p class="subtext gray">(775 reviews)</p>
         </div>
         <div class="column second">
-          <h3>{{course.course_code}}</h3>
-          <h2>{{course.course_name}}</h2>
+          <h4 class="code">{{course.course_code}}</h4>
+          <h2 class="name">{{course.course_name}}</h2>
           <div class="nested-columns">
-            <p class="nested-column"><i class="pi pi-map-marker"></i> Northbridge University, UK</p>
-            <p class="nested-column"><i class="pi pi-user"></i> Dr. Eleanor Hartman</p>
+            <p class="nested-column subtext gray"><i class="pi pi-map-marker"></i> Northbridge University, UK</p>
+            <p class="nested-column subtext gray"><i class="pi pi-user"></i> Dr. Eleanor Hartman</p>
             <p class="nested-column"><!--<i class="pi pi-clock"></i> 12 Weeks--></p>
           </div>
         </div>
@@ -37,7 +52,9 @@
    text-align: center;
  }
 
-.course-card {}
+.course-card {
+  padding: 48px 16px;
+}
 
 .second {
   width: 60%;
@@ -53,22 +70,13 @@
   width: 32%;
 }
 
-.subnote {
-  color: #57B8FF;
+.code {
+  margin: 0 0;
+  line-height: 1;
+}
+
+.name {
+  margin-top: 0;
+  margin-bottom: 8px;
 }
 </style>
-
-<script setup lang="ts">
-import {computed} from "vue";
-
-const emit = defineEmits(['update:course']);
-
-const props = defineProps({
-  course: { type: Object, default: {} }
-});
-
-const course = computed({
-  get: () => props.course,
-  set: (value) => emit('update:course', value),
-});
-</script>

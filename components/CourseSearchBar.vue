@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, defineProps, watch } from "vue";
-import { FilterMatchMode, FilterService } from '@primevue/core/api';
+import { getUniversityName} from "~/utils/utils";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -71,25 +71,6 @@ const search = (event) => {
     }
   }, 1000);
 };
-
-async function getUniversityName(id: number) {
-  try {
-    const response = await $fetch(getAPI() + '/uni_prof/uni_info_by_id/' + id, {
-      method: "GET",
-      credentials: "include",
-    });
-
-    if (response.status === "success" && response.university) {
-      return response.university.uni_name;
-    } else {
-      console.error("Error:", response);
-      return "Unknown University";
-    }
-  } catch (err) {
-    console.error( err);
-    return "Unknown University";
-  }
-}
 
 const search_types = [
   { name: 'Course', id: 0 },

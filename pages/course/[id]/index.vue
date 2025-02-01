@@ -125,36 +125,41 @@ watchEffect(async () => {
           </div>
         </div>
         <div class="column info right">
-          <div class="container column center">
+          <div class="container column center stats">
             <div class="columns center">
               <div class="column thirds"><p class="tleft subtext gray">{{getStatPercentage(course.avg_cognitive_load_rating)}}%</p></div>
               <div class="column thirds"><p class="tcenter">Cognitive Load</p></div>
               <div class="column thirds"><p class="tright subtext gray">{{getStatDescription(course.avg_cognitive_load_rating)}}</p></div>
             </div>
+            <Bar :percentage="getStatPercentage(course.avg_cognitive_load_rating)" />
           </div>
 
-          <div class="container column center">
+          <div class="container column center stats">
             <div class="columns center">
               <div class="column thirds"><p class="tleft subtext gray">{{getStatPercentage(course.avg_delivery_support_rating)}}%</p></div>
               <div class="column thirds"><p class="tcenter">Support</p></div>
               <div class="column thirds"><p class="tright subtext gray">{{getStatDescription(course.avg_delivery_support_rating)}}</p></div>
             </div>
+            <Bar :percentage="getStatPercentage(course.avg_delivery_support_rating)" />
+
           </div>
 
-          <div class="container column center">
+          <div class="container column center stats">
             <div class="columns center">
               <div class="column thirds"><p class="tleft subtext gray">{{getStatPercentage(course.avg_engagement_enjoyment_rating)}}%</p></div>
               <div class="column thirds"><p class="tcenter">Enjoyment</p></div>
               <div class="column thirds"><p class="tright subtext gray">{{getStatDescription(course.avg_engagement_enjoyment_rating)}}</p></div>
             </div>
+            <Bar :percentage="getStatPercentage(course.avg_engagement_enjoyment_rating)" />
           </div>
 
-          <div class="container column center">
+          <div class="container column center stats">
             <div class="columns center">
               <div class="column thirds"><p class="tleft subtext gray">{{getStatPercentage(course.avg_usefulness_relevance_rating)}}%</p></div>
               <div class="column thirds"><p class="tcenter">Usefulness</p></div>
               <div class="column thirds"><p class="tright subtext gray">{{getStatDescription(course.avg_usefulness_relevance_rating)}}</p></div>
             </div>
+            <Bar :percentage="getStatPercentage(course.avg_usefulness_relevance_rating)" />
           </div>
         </div>
       </div>
@@ -218,8 +223,13 @@ watchEffect(async () => {
 }
 
 .main_stats {
-  padding-top: 24px;
-  padding-bottom: 24px;
+  padding-top: 34px;
+  padding-bottom: 34px;
+}
+
+.stats {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .first {
@@ -244,5 +254,6 @@ watchEffect(async () => {
 
 .bottom {
   margin-top: 220px;
+  margin-bottom: 80px;
 }
 </style>
