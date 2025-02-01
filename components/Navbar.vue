@@ -99,7 +99,7 @@ async function handleSession() {
       setUpUser();
       setConnected(true);
     } else {
-      setUpGuest();
+      setUpGuest();user_items
       setConnected(false);
     }
   } catch (err) {

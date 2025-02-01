@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref, watchEffect} from "vue";
 import CourseCard from "~/components/CourseCard.vue";
+import {getReviews} from "~/utils/utils";
 
 const route = useRoute()
 const id = route.params.id
@@ -62,20 +63,6 @@ function getStatDescription(rating:number) {
 const reviews = ref([]);
 const loading = ref(true);
 
-async function getReviews(course_id: string) {
-  try {
-    const response: Response = await $fetch(getAPI() + '/reviews/get_reviews_for_course/' + course_id, {
-      method: "GET",
-      credentials: "include",
-    });
-    return response;
-  } catch (err) {
-    console.error("Search failed:", err);
-    await router.push("/");
-    return [];
-  }
-}
-
 watchEffect(async () => {
   if (!course.value || !course.value.id) return;
   loading.value = true;
@@ -115,8 +102,8 @@ watchEffect(async () => {
         <div class="column info left">
           <div class="container column center main_stats">
             <p class="">Overall Rating</p>
-            <h2>{{course.avg_course_rating}}</h2>
-            <Stars :rating="parseInt(avg_rating)" size="small" />
+            <h2>{{course.avg_course_rating || '0.0'}}</h2>
+            <Stars :rating="parseInt(course.avg_course_rating || '0')" size="small" />
             <p class="subtext gray">( {{reviews.length}} review{{reviews.length == 1 ? "" : "s"}} )</p>
           </div>
           <div class="container column center main_stats">
