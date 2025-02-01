@@ -1,22 +1,21 @@
 <script setup lang="ts">
-
-import {watchEffect} from "vue";
-import {setConnected} from "~/utils/utils";
+import { ref, onMounted, watch } from "vue";
+import { setConnected, isConnected } from "~/utils/utils";
 
 const session = ref("");
 const usernameCookie = useCookie("username");
 const sessionCookie = useCookie("sessionid");
 const tokenCookie = useCookie("csrftoken");
 
-const log_out = () => {
+const log_out = async () => {
   try {
-    $fetch(getAPI() + '/users/logout', {
+    await $fetch(getAPI() + '/users/logout', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   setConnected(false);
   session.value = null;
@@ -24,9 +23,9 @@ const log_out = () => {
   sessionCookie.value = null;
   tokenCookie.value = null;
   setTimeout(() => {
-    navigateTo("/")
+    navigateTo("/");
   }, 5000);
-}
+};
 
 const items = ref([
   {
@@ -42,7 +41,6 @@ const items = ref([
 
 const menu_items = ref([]);
 
-//session.value === null || session.value === undefined ?
 const guest_items = [
   {
     label: 'Log In',
@@ -76,13 +74,20 @@ const user_items = [
       {
         label: "Log Out",
         color: 'red',
-        command: () => log_out()
+        command: log_out
       }
     ]
   }
 ];
 
-const connected = ref(false);
+function setUpGuest() {
+  menu_items.value = guest_items;
+}
+
+function setUpUser() {
+  session.value = usernameCookie.value;
+  menu_items.value = user_items;
+}
 
 async function handleSession() {
   try {
@@ -91,73 +96,60 @@ async function handleSession() {
       credentials: 'include',
     });
     if(response.message === "Valid") {
+      setUpUser();
       setConnected(true);
-    }
-    else {
+    } else {
+      setUpGuest();
       setConnected(false);
     }
   } catch (err) {
-    setConnected(false);
+    console.error(err);
     setUpGuest();
+    setConnected(false);
+
   }
 }
-
-function setUpGuest() {
-  connected.value = false;
-  menu_items.value = guest_items;
-}
-
-function setUpUser() {
-  connected.value = true;
-  session.value = usernameCookie.value;
-  menu_items.value = user_items;
-}
-
-const hasCheckedSession = ref(false);
 
 onMounted(() => {
-  if (!hasCheckedSession.value) {
-    handleSession();
-    hasCheckedSession.value = true;
-  }
-});
-watchEffect(() => {
-  if (isConnected()) {
-    if(!connected.value || !hasCheckedSession.value) {
-      setUpUser();
-    }
-  } else {
-    if(connected.value || !hasCheckedSession.value) {
-      setUpGuest();
-    }
-  }
+  handleSession();
 });
 
+watch(isConnected, (newVal) => {
+  if (newVal) {
+    setUpUser();
+  } else {
+    setUpGuest();
+  }
+});
 </script>
 
 <template>
   <header class="card">
     <Menubar :model="items" class="navbar">
       <template #start>
-        <NuxtLink to="/" class="logo"><img src="../assets/images/uninsight-main-logo.svg" alt="Uninsight" class="logo title2"></NuxtLink>
+        <NuxtLink to="/" class="logo">
+          <img src="../assets/images/uninsight-main-logo.svg" alt="Uninsight" class="logo title2" />
+        </NuxtLink>
       </template>
       <template #end>
         <Menubar :model="menu_items" class="sub-menu">
           <template #item="{ item, props, hasSubmenu, root }">
-            <Button v-if="item.button" :label="item.label" :severity="item.severity" v-bind="props.action" :class="item.color " />
+            <Button
+                v-if="item.button"
+                :label="item.label"
+                :severity="item.severity"
+                v-bind="props.action"
+                :class="item.color"
+            />
             <a v-else v-ripple class="flex" v-bind="props.action">
-              <span :style="{'color': item.color}">{{ item.label }}</span>
-<!--              <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>-->
-              <i v-if="hasSubmenu" :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"></i>
+              <span :style="{ color: item.color }">{{ item.label }}</span>
+              <i
+                  v-if="hasSubmenu"
+                  :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"
+              ></i>
             </a>
           </template>
         </Menubar>
-<!--        <div v-if="session">LOGGED IN</div>
-        <div v-else>Logged off</div>
-        <div class="navbar-buttons">
-          <Button label="Log In" severity="secondary" @click="navigateTo('/login')" />
-          <Button label="Sign Up" severity="secondary" @click="navigateTo('/signup')" />
-        </div>-->
       </template>
     </Menubar>
   </header>
@@ -170,15 +162,13 @@ watchEffect(() => {
   border-radius: 0;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 1rem;
-
-  position: fixed; /* Fix the navbar at the top of the page */
-  top: 0; /* Align to the top */
-  left: 0; /* Align to the left edge */
-  width: 100%; /* Stretch across the full width */
-  z-index: 1000; /* Ensure it stays above other elements */
-  display: flex; /* Flexbox for alignment */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
   height: 78px;
-
   background-color: var(--background);
 }
 
@@ -205,16 +195,14 @@ watchEffect(() => {
   background: none;
 }
 
-/* Optional: Change hover color when item is selected */
 .p-menubar-item:hover, .p-menubar-item-content:hover {
-  background-color: red !important; /* Your desired focus/active color */
-  color: #333333; /* Adjust text color */
+  background-color: red !important;
+  color: #333333;
 }
 
 .navbar {
   display: flex;
-  justify-content: center; /* Centers the main menu */
-  align-items: center; /* Aligns items vertically */
+  justify-content: center;
+  align-items: center;
 }
-
 </style>
