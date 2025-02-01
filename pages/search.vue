@@ -119,6 +119,8 @@ onMounted(() => {
     </div>
     <p v-else class="tcenter gray">0 Results</p>
   </div>
+
+  <Footer />
 </template>
 
 <style scoped>
@@ -132,7 +134,7 @@ onMounted(() => {
 
 .results {
   margin-top: 400px;
-  min-height:  100vh;
+  margin-bottom: 80px;
   width: 90vw;
   max-width: 1400px;
 }
