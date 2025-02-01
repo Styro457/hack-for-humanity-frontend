@@ -131,7 +131,7 @@ watch(isConnected, (newVal) => {
         </NuxtLink>
       </template>
       <template #end>
-        <Menubar :model="user_items" class="sub-menu" v-if="connected">
+        <Menubar :model="guest_items" class="sub-menu" v-if="connected">
           <template #item="{ item, props, hasSubmenu, root }">
             <Button
                 v-if="item.button"
