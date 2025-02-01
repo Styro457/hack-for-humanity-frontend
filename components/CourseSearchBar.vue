@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, defineProps } from "vue";
+import { ref, computed, defineProps, watch } from "vue";
 import { FilterMatchMode, FilterService } from '@primevue/core/api';
 import { useRouter } from "vue-router";
 
@@ -61,18 +61,15 @@ const search_types = [
 const selectedSearch = ref(search_types[props.defaultSearchTypeIndex] || search_types[0]);
 
 const onFormSubmit = ({ valid }) => {
-  if (valid) {
-    router.push({
-      path: '/search',
-      query: {
-        search: selectedCourse.value,
-        option: selectedSearch.value.id
-      }
-    });
-  }
+  router.push({
+    path: '/search',
+    query: {
+      search: selectedCourse.value,
+      option: selectedSearch.value.id
+    }
+  });
 };
 
-// Computed property to determine the placeholder based on the selected search type
 const placeholder = computed(() => {
   if (selectedSearch.value.id === 0) {
     return 'Course name, code or keyword';
@@ -81,6 +78,21 @@ const placeholder = computed(() => {
   }
   return 'Search';
 });
+
+watch(() => props.defaultSearchTerm, (newSearchTerm) => {
+  selectedCourse.value = newSearchTerm || "";
+});
+
+watch(() => props.defaultSearchTypeIndex, (newSearchTypeIndex) => {
+  selectedSearch.value = search_types[newSearchTypeIndex] || search_types[0];
+});
+
+  const handleKeydown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      onFormSubmit({ valid: true });
+    }
+  }
 </script>
 
 <template>
@@ -101,18 +113,19 @@ const placeholder = computed(() => {
           optionGroupLabel="label"
           optionGroupChildren="items"
           :placeholder="placeholder"
+          @keydown="handleKeydown"
       >
-      <template #optiongroup="slotProps">
-        <div class="flex items-center">
-          <img
-              :alt="slotProps.option.label"
-              src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
-              :class="`flag flag-${slotProps.option.code.toLowerCase()} mr-2`"
-              style="width: 18px"
-          />
-          <div>{{ slotProps.option.label }}</div>
-        </div>
-      </template>
+        <template #optiongroup="slotProps">
+          <div class="flex items-center">
+            <img
+                :alt="slotProps.option.label"
+                src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
+                :class="`flag flag-${slotProps.option.code.toLowerCase()} mr-2`"
+                style="width: 18px"
+            />
+            <div>{{ slotProps.option.label }}</div>
+          </div>
+        </template>
       </AutoComplete>
       <Button icon="pi pi-filter" aria-label="Filter" class="iconbutton" />
       <Button type="submit" label="Search" class="search-btn" />
@@ -144,8 +157,8 @@ const placeholder = computed(() => {
 }
 
 .autocomplete {
-  flex-grow: 1; /* Allow AutoComplete to take remaining space */
-  min-width: 200px; /* Prevent AutoComplete from shrinking too much */
+  flex-grow: 1;
+  min-width: 200px;
 }
 
 .iconbutton {

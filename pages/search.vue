@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect, nextTick, onMounted } from "vue";
+import {ref, watch, nextTick, onMounted, computed} from "vue";
 import { useRoute, useRouter } from "vue-router";
 import CourseCard from "~/components/CourseCard.vue";
 
@@ -32,16 +32,12 @@ async function search(query: string) {
   }
 }
 
-watchEffect(async () => {
+const fetchSearchResults = async () => {
   loading.value = true;
   searchResults.value = await search(searchTerm.value);
   loading.value = false;
-
-  if (searchTerm.value) {
-    await nextTick();
-    scrollToResults();
-  }
-});
+  scrollToResults();
+};
 
 const scrollToResults = () => {
   if (process.client) {
@@ -76,9 +72,23 @@ const slowScrollTo = (targetPosition, duration) => {
   requestAnimationFrame(animation);
 };
 
-onMounted(() => {
+watch(() => route.query.search, async (newSearchTerm) => {
+  searchTerm.value = newSearchTerm ?? "";
   if (searchTerm.value) {
-    scrollToResults();
+    await fetchSearchResults();
+  }
+});
+
+watch(() => route.query.option, async (newSearchOption) => {
+  searchOption.value = newSearchOption;
+  if (searchTerm.value) {
+    await fetchSearchResults();
+  }
+});
+
+onMounted(() => {
+  if (searchOption.value) {
+    fetchSearchResults();
   }
 });
 </script>
@@ -89,7 +99,7 @@ onMounted(() => {
     <h1 class="bold-800">Read Reviews Of<br><span class="bold-800 secondary">6400+</span> Courses</h1>
     <p class="box">
       Explore courses and professors from universities worldwide. Use filters to find<br>
-      exactly what youe looking for—whether it's the perfect course to match your<br>
+      exactly what you're looking for—whether it's the perfect course to match your<br>
       interests or insights into professors' teaching styles.
     </p>
   </div>
@@ -99,15 +109,12 @@ onMounted(() => {
     <h3 class="tleft">Find The Right Course</h3>
     <CourseSearchBar :default-search-term="searchTerm" :default-search-type-index="searchOption" class="box" />
 
-    <!--    <h1>Search of {{ searchOption }}: {{ searchTerm }}</h1>-->
-
     <p v-if="loading" class="tcenter gray">Loading courses...</p>
     <div v-else-if="searchResults.length > 0" class="courses">
       <p class="tcenter gray">{{searchResults.length}} Results</p>
       <CourseCard v-for="course in searchResults" :key="course.id" :course="course" />
     </div>
     <p v-else class="tcenter gray">0 Results</p>
-
   </div>
 </template>
 
@@ -125,5 +132,4 @@ onMounted(() => {
   min-height:  100vh;
   width: 90vw;
 }
-
 </style>
