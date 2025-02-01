@@ -21,6 +21,8 @@ const handleConfirmation = async () => {
       },
     });
   } catch (err) {
+    console.log("ERROR");
+    console.error(err);
     await router.push({
       path: "/login",
       query: {
