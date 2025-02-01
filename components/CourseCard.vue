@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ref, watchEffect} from "vue";
-import {getReviews, getUniversityName, getProfessorData} from "~/utils/utils";
+import {getReviews, getUniversityName, getProfessorData, getDepartments} from "~/utils/utils";
 
 const emit = defineEmits(['update:course']);
 
@@ -16,7 +16,7 @@ const course = computed({
 const reviews = ref([]);
 const proffesor = ref({"name":"Unknown"});
 const universityName = ref("Unkown");
-const departaments = ref(getDepartments())
+const departaments = ref(getDepartments(course))
 const loading = ref(true);
 
 watchEffect(async () => {
@@ -27,17 +27,6 @@ watchEffect(async () => {
   proffesor.value = await getProfessorData(course.value.professors[0]); //TODO: Make it work with multiple
   loading.value = false;
 });
-
-function getDepartments() {
-  let departments_list = "";
-  for(let department in course.departments) {
-    departments_list = departments_list + ", " + department;
-  }
-  if(departments_list===" ")
-    return null;
-  else
-    return departments_list.slice(2);
-}
 </script>
 
 <template>
@@ -59,8 +48,8 @@ function getDepartments() {
           </div>
         </div>
         <div class="column third" v-if="departaments">
-          <span>Departments</span>
-          <p>{{departaments}}</p>
+          <span class="text bold-600 dep"><i class="pi pi-book texticon"></i>Department{{course.departments.length == 1 ? "" : "s"}}</span>
+          <p class="gray subtext">{{departaments}}</p>
         </div>
       </div>
       <div class="row">
@@ -105,5 +94,9 @@ function getDepartments() {
 .name {
   margin-top: 0;
   margin-bottom: 8px;
+}
+
+.dep {
+  margin-left: -12px;
 }
 </style>

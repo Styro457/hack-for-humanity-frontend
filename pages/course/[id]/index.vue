@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref, watchEffect} from "vue";
 import CourseCard from "~/components/CourseCard.vue";
-import {getProfessorData, getReviews, getUniversityName} from "~/utils/utils";
+import {getDepartments, getProfessorData, getReviews, getUniversityName} from "~/utils/utils";
 
 const route = useRoute()
 const id = route.params.id
@@ -63,6 +63,7 @@ function getStatDescription(rating:number) {
 const reviews = ref([]);
 const loading = ref(true);
 const professor = ref({"name":"Unknown", "rating":"0"});
+const departments = ref(null);
 
 
 watchEffect(async () => {
@@ -76,6 +77,7 @@ watchEffect(async () => {
   if (!course.value || !course.value.id) return;
   loading.value = true;
   reviews.value = await getReviews(course.value.id);
+  departments.value = getDepartments(course);
   loading.value = false;
 });
 </script>
@@ -89,22 +91,20 @@ watchEffect(async () => {
   <div class="course-info">
     <div>
       <h2 class="bold-700 box title">{{course.course_name}}</h2>
-<!--      <div class="columns box">
-        <div class="column first">
+      <div class="columns box center" v-if="departments">
+        <div class="column first center">
           <div class="columns">
-            <p class="texticon"><i class="pi pi-search"></i></p>
-            <p class="text"> Northbridge University, UK</p>
+            <p class=""><PhosphorIconMapPin /> {{ course.university_name}}</p>
           </div>
         </div>
-        <div class="column second">
-          <div class="columns">
+        <div class="column second center">
+          <div class="columns center">
             <p class="texticon"><i class="pi pi-book"></i></p>
-            <p class="text"> Computer Science, Software Engineering,
-              Information Technology </p>
+            <p class="text">{{departments}} </p>
           </div>
         </div>
-      </div>-->
-      <div class="column center">
+      </div>
+      <div class="column center" v-else>
         <p class=""><PhosphorIconMapPin /> {{ course.university_name}}</p>
       </div>
       <div class="columns">
