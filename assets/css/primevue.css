@@ -9,17 +9,17 @@
     --p-button-primary-active-border-color: var(--primary-focus);
     --p-button-primary-active-color: var(--accent) !important;
 
-    --p-button-secondary-background: var(--background);
-    --p-button-secondary-color: var(--primary);
-    --p-button-secondary-border-color: var(--primary);
-    --p-button-secondary-hover-background: var(--background-hover);
-    --p-button-secondary-hover-border-color: var(--primary-hover);
-    --p-button-secondary-hover-color: var(--primary-hover);
-    --p-button-secondary-active-background: var(--background-focus);
-    --p-button-secondary-active-border-color: var(--primary-focus);
-    --p-button-secondary-active-color: var(--primary-focus);
-    --p-menubar-item-focus-background: var(--background);
-    --p-menubar-item-active-background: var(--background);
+    --p-button-secondary-background: var(--background) !important;
+    --p-button-secondary-color: var(--primary) !important;
+    --p-button-secondary-border-color: var(--primary) !important;
+    --p-button-secondary-hover-background: var(--background-hover) !important;
+    --p-button-secondary-hover-border-color: var(--primary-hover) !important;
+    --p-button-secondary-hover-color: var(--primary-hover) !important;
+    --p-button-secondary-active-background: var(--background-focus) !important;
+    --p-button-secondary-active-border-color: var(--primary-focus) !important;
+    --p-button-secondary-active-color: var(--primary-focus) !important;
+    --p-menubar-item-focus-background: var(--background) !important;
+    --p-menubar-item-active-background: var(--background) !important;
 
     --p-menubar-background: var(--background);
 
