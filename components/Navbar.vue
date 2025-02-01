@@ -62,13 +62,15 @@ const user_items = [
   {
     label: 'Write a review',
     color: 'accent',
-    button: true
+    button: true,
+    command: () => navigateTo("/review")
   },
   {
     label: session,
     items: [
       {
-        label: 'Courses'
+        label: 'Courses',
+        command: () => navigateTo('/search')
       },
       {
         label: "Log Out",
