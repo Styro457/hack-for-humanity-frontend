@@ -1,13 +1,13 @@
 :root {
     --p-button-primary-background: var(--primary);
-    --p-button-primary-color: var(--accent);
+    --p-button-primary-color: var(--accent) !important;
     --p-button-primary-border-color: var(--primary);
     --p-button-primary-hover-background: var(--primary-hover);
     --p-button-primary-hover-border-color: var(--primary-hover);
-    --p-button-primary-hover-color: var(--accent);
+    --p-button-primary-hover-color: var(--accent) !important;
     --p-button-primary-active-background: var(--primary-focus);
     --p-button-primary-active-border-color: var(--primary-focus);
-    --p-button-primary-active-color: var(--accent);
+    --p-button-primary-active-color: var(--accent) !important;
 
     --p-button-secondary-background: var(--background);
     --p-button-secondary-color: var(--primary);

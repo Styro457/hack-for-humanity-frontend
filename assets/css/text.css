@@ -85,7 +85,7 @@ p, .text {
 }
 
 .accent {
-    color: var(--accent);
+    color: var(--accent) !important;
 }
 
 .white {
